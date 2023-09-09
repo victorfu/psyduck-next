@@ -31,7 +31,7 @@ export default async function Home() {
           <p>
             Hello! {user.displayName} {user.email}
           </p>
-          <div>從{convert(user.providerData[0].providerId)}登入</div>
+          <div>From {convert(user.providerData[0].providerId)} login</div>
         </>
       )}
     </main>
