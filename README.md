@@ -1,6 +1,6 @@
 # Psyduck Next
 
-A boilerplate of React and Next.js 13 with Firebase Authentication and Firestore.
+A Next.js 13 boilerplate with firebase authentication and firestore, based on React, TypeScript, and Tailwind CSS.
 
 ## Requirements
 
