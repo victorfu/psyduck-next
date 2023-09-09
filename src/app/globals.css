@@ -1,0 +1,30 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* Layout */
+.navbar ul,
+.mobile-navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.navbar ul li,
+.mobile-navbar ul li {
+  display: inline;
+  margin-right: 10px;
+}
+@media (max-width: 767px) {
+  .mobile-navbar {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+  }
+  .mobile-navbar ul li {
+    display: block;
+    margin-right: 0;
+    padding: 10px;
+  }
+}
