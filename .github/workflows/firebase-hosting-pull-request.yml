@@ -17,9 +17,10 @@ jobs:
           pwd
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
         with:
+          firebaseToolsVersion: 12.1.0
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PSYDUCK_NEXT }}"
           projectId: psyduck-next
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
