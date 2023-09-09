@@ -6,7 +6,7 @@ import { GlobalContext } from "@/components/GlobalContext";
 
 function LoginPage() {
   const router = useRouter();
-  const { signInByGoogle, signInByLine } = useContext(GlobalContext);
+  const { signInByGoogle } = useContext(GlobalContext);
 
   return (
     <div>
@@ -20,14 +20,6 @@ function LoginPage() {
       >
         <button onClick={() => signInByGoogle(() => router.push("/"))}>
           Sign in with Google
-        </button>
-        <div
-          style={{
-            height: 5,
-          }}
-        />
-        <button onClick={() => signInByLine(() => router.push("/"))}>
-          Sign in with LINE
         </button>
       </div>
     </div>

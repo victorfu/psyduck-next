@@ -1,15 +1,5 @@
 import { cookies, headers } from "next/headers";
 
-const convert = (providerId: string) => {
-  if (providerId === "google.com") {
-    return "Google";
-  }
-  if (providerId === "oidc.line") {
-    return "LINE";
-  }
-  return providerId;
-};
-
 export default async function Home() {
   const cookieStore = cookies();
   const session = cookieStore.get("session");
@@ -31,7 +21,6 @@ export default async function Home() {
           <p>
             Hello! {user.displayName} {user.email}
           </p>
-          <div>From {convert(user.providerData[0].providerId)} login</div>
         </>
       )}
     </main>
