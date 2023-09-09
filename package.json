@@ -1,7 +1,8 @@
 {
   "name": "psyduck-next",
-  "version": "0.1.0",
-  "private": true,
+  "description": "A Next.js 13 boilerplate with firebase authentication and firestore, based on React, TypeScript, and Tailwind CSS.",
+  "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
