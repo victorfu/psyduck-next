@@ -10,7 +10,7 @@ function LoginPage() {
 
   return (
     <div>
-      <p>Welcome to Psyduck</p>
+      <p>Welcome to Psyduck Next</p>
       <div
         style={{
           display: "flex",
