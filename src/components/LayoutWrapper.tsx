@@ -43,34 +43,27 @@ const Navigation = () => {
   };
 
   return (
-    <nav>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          height: 32,
-        }}
-        ref={navRef}
-      >
+    <div>
+      <nav className="navbar" ref={navRef}>
         <Link href="/">Logo</Link>
 
         {isMobile ? (
           <>
             <button onClick={toggleNavOpen}>≡</button>
             {isNavOpen && (
-              <div className="mobile-navbar">
+              <div className="mobile-nav-links">
                 <NavigationLinks isMobile={isMobile} />
               </div>
             )}
           </>
         ) : (
-          <div className="navbar">
+          <div className="nav-links">
             <NavigationLinks isMobile={isMobile} />
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+      <hr />
+    </div>
   );
 };
 
@@ -79,15 +72,12 @@ export default function LayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const { loadingAuthState } = useContext(GlobalContext);
-
   return (
     <div>
       <Navigation />
-      <hr style={{ marginBlockEnd: 0 }} />
-      <div style={{ padding: 10 }}>
-        {loadingAuthState ? <div>loading...</div> : <>{children}</>}
-      </div>
+      <main className="flex flex-col items-center justify-center main-content">
+        {children}
+      </main>
     </div>
   );
 }

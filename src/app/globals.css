@@ -3,28 +3,42 @@
 @tailwind utilities; */
 
 /* Layout */
-.navbar ul,
-.mobile-navbar ul {
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+}
+
+.navbar .nav-links ul,
+.mobile-nav-links ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-.navbar ul li,
-.mobile-navbar ul li {
+
+.navbar .nav-links ul li,
+.mobile-nav-links ul li {
   display: inline;
   margin-right: 10px;
 }
+
 @media (max-width: 767px) {
-  .mobile-navbar {
+  .mobile-nav-links {
     position: absolute;
     top: 40px;
     right: 0;
     background-color: white;
     border: 1px solid #ccc;
   }
-  .mobile-navbar ul li {
+
+  .mobile-nav-links ul li {
     display: block;
     margin-right: 0;
     padding: 10px;
   }
+}
+
+.main-content {
+  padding: 10px;
 }

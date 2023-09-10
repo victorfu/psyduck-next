@@ -58,7 +58,7 @@ const login = async (idToken: string) => {
 
 export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loadingAuthState, setLoadingAuthState] = useState<boolean>(true);
+  const [loadingAuthState, setLoadingAuthState] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("/api/account")

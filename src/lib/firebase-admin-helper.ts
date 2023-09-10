@@ -24,6 +24,15 @@ function initializeFirebaseAdmin() {
 const admin = initializeFirebaseAdmin();
 export const adminAuth = getAuth(admin);
 
+export async function getUser(uid: string) {
+  try {
+    return await adminAuth.getUser(uid);
+  } catch (error) {
+    console.error("Error getting user:", error);
+    throw error;
+  }
+}
+
 export async function verifyIdTokenAndGetUser(token: string) {
   try {
     const decodedToken = await adminAuth.verifyIdToken(token, true);

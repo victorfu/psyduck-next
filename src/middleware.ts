@@ -1,17 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { Logger } from "./utils/logger";
 
 const fetchLogin = async (apiUrl: string, session: string) => {
   if (!session) {
-    return false;
+    return { isLoggedIn: false };
   }
 
-  const responseAPI = await fetch(`${apiUrl}/api/login`, {
-    headers: {
-      Cookie: `session=${session}`,
-    },
-  });
-  return responseAPI.status === 200;
+  try {
+    const response = await fetch(`${apiUrl}/api/login`, {
+      headers: {
+        Cookie: `session=${session}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error in fetchLogin: ", error);
+    return { isLoggedIn: false };
+  }
 };
 
 const redirectTo = (url: string, request: NextRequest) =>
@@ -20,22 +26,36 @@ const redirectTo = (url: string, request: NextRequest) =>
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionValue = request.cookies.get("session")?.value || "";
-  const isLogged = await fetchLogin(`${request.nextUrl.origin}`, sessionValue);
+  const { isLoggedIn, uid, email, displayName, photoURL } = await fetchLogin(
+    `${request.nextUrl.origin}`,
+    sessionValue,
+  );
+  Logger.log(`[${pathname}][isLoggedIn: ${isLoggedIn}]`);
 
-  if (pathname === "/login") {
-    if (isLogged) {
-      return redirectTo("/", request);
-    }
-  } else {
-    if (!isLogged) {
-      return redirectTo("/login", request);
-    }
+  // Redirect logic for /login path
+  if (pathname === "/login" && isLoggedIn) {
+    Logger.log("Redirecting to /");
+    return redirectTo("/", request);
+  }
+  if (pathname === "/login" && !isLoggedIn) {
+    return NextResponse.next();
   }
 
-  // TODO: remove this workaround
-  // pass url to server component via headers
+  // Redirect logic for non-/login paths
+  if (!isLoggedIn) {
+    Logger.log("Redirecting to /login");
+    return redirectTo("/login", request);
+  }
+
+  Logger.log(`[${pathname}][${uid}][${email}][${displayName}][${photoURL}]`);
+
+  // Add uid to request headers for logged in users
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-url", request.url);
+  requestHeaders.set("uid", uid);
+  requestHeaders.set(
+    "user-quick-info",
+    JSON.stringify({ uid, email, displayName, photoURL }),
+  );
 
   return NextResponse.next({
     request: {
@@ -45,5 +65,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/account/:path*", "/admin/:path*"],
+  matcher: ["/", "/login", "/account/:path*"],
 };

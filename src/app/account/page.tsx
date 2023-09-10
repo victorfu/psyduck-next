@@ -1,23 +1,12 @@
-"use client";
-
-import { GlobalContext } from "@/components/GlobalContext";
-import { FC, useContext } from "react";
 import Image from "next/image";
-
-interface AuthInfoProps {
-  providerData: ProviderData[] | null | undefined;
-}
+import "server-only";
+import getUserQuickInfo from "@/utils/getUserQuickInfo";
 
 function AccountPage() {
-  const { user } = useContext(GlobalContext);
+  const userInfo = getUserQuickInfo();
 
-  const AuthInfo: FC<AuthInfoProps> = ({ providerData }) => {
-    if (!providerData || !providerData.length) {
-      return null;
-    }
-
-    const provider = providerData[0];
-    return (
+  return (
+    <div>
       <div>
         <Image
           style={{
@@ -29,20 +18,13 @@ function AccountPage() {
           height={0}
           width={0}
           sizes={"100vw"}
-          src={provider.photoURL || ""}
+          src={userInfo?.photoURL || ""}
           alt="profile"
         />
-        <div>providerId: {provider.providerId}</div>
-        <div>uid: {provider.uid}</div>
-        <div>displayName: {provider.displayName}</div>
-        <div>email: {provider.email}</div>
+        <div>uid: {userInfo?.uid}</div>
+        <div>displayName: {userInfo?.displayName}</div>
+        <div>email: {userInfo?.email}</div>
       </div>
-    );
-  };
-
-  return (
-    <div>
-      <AuthInfo providerData={user?.providerData} />
     </div>
   );
 }

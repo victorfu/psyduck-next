@@ -1,28 +1,14 @@
-import { cookies, headers } from "next/headers";
+import "server-only";
+import getUserQuickInfo from "@/utils/getUserQuickInfo";
 
 export default async function Home() {
-  const cookieStore = cookies();
-  const session = cookieStore.get("session");
-  const headersList = headers();
-  const xUrl = headersList.get("x-url") || "";
-  const { user } = await fetch(`${xUrl}/api/account`, {
-    headers: {
-      Cookie: `session=${session?.value}`,
-    },
-    next: {
-      revalidate: 5,
-    },
-  }).then((res) => res.json());
+  const userInfo = getUserQuickInfo();
 
   return (
-    <main className="flex flex-col items-center justify-center">
-      {user && (
-        <>
-          <p>
-            Hello! {user.displayName} {user.email}
-          </p>
-        </>
-      )}
-    </main>
+    <>
+      <div>
+        Hello! {userInfo?.displayName} {userInfo?.email}
+      </div>
+    </>
   );
 }

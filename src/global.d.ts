@@ -28,3 +28,10 @@ type Account = {
   tokensValidAfterTime: string;
   providerData: ProviderData[];
 };
+
+type UserQuickInfo = {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+};

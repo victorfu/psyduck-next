@@ -9,16 +9,25 @@ export async function GET(request: NextRequest) {
   const session = cookies().get("session")?.value || "";
 
   if (!session) {
-    return NextResponse.json({ isLogged: false }, { status: 401 });
+    return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 
   const decodedClaims = await adminAuth.verifySessionCookie(session, true);
 
   if (!decodedClaims) {
-    return NextResponse.json({ isLogged: false }, { status: 401 });
+    return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 
-  return NextResponse.json({ isLogged: true }, { status: 200 });
+  return NextResponse.json(
+    {
+      isLoggedIn: true,
+      uid: decodedClaims.uid,
+      email: decodedClaims.email,
+      displayName: decodedClaims.name,
+      photoURL: decodedClaims.picture,
+    },
+    { status: 200 },
+  );
 }
 
 export async function POST(request: NextRequest, response: NextResponse) {
@@ -76,5 +85,5 @@ export async function POST(request: NextRequest, response: NextResponse) {
   };
 
   cookies().set(options);
-  return NextResponse.json({ isLogged: true, user }, { status: 200 });
+  return NextResponse.json({ isLoggedIn: true, user }, { status: 200 });
 }
