@@ -21,8 +21,9 @@ const NavigationLinks = ({ isMobile }: { isMobile: Boolean | undefined }) => {
       </li>
       <li>
         <button
-          onClick={() => {
-            signOut(() => (window.location.href = "/login"));
+          onClick={async () => {
+            await signOut();
+            window.location.href = "/login";
           }}
         >
           Logout

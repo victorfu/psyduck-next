@@ -21,20 +21,18 @@ import {
 
 interface GlobalContextProps {
   user: User | null;
-  signInByGoogle: (callback?: () => void) => void;
-  signInByLine: (callback?: () => void) => void;
-  signOut: (callback?: () => void) => void;
-  loadingAuthState: boolean;
+  signInByGoogle: () => Promise<void>;
+  signInByLine: () => Promise<void>;
+  signOut: () => Promise<void>;
   getAuthProviderName: () => string;
   convertProviderIdToName: (providerId: string) => string;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
   user: null,
-  signInByGoogle: () => {},
-  signInByLine: () => {},
-  signOut: () => {},
-  loadingAuthState: true,
+  signInByGoogle: () => Promise.resolve(),
+  signInByLine: () => Promise.resolve(),
+  signOut: () => Promise.resolve(),
   getAuthProviderName: () => "",
   convertProviderIdToName: () => "",
 });
@@ -58,7 +56,6 @@ const login = async (idToken: string) => {
 
 export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loadingAuthState, setLoadingAuthState] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("/api/account")
@@ -69,45 +66,32 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
       .catch((err) => {
         console.error(err);
         setUser(null);
-      })
-      .finally(() => {
-        setLoadingAuthState(false);
       });
   }, []);
 
-  const signInByGoogle = useCallback(async (callback?: () => void) => {
-    setLoadingAuthState(true);
+  const signInByGoogle = useCallback(async () => {
     try {
       const result = await signInWithPopup(auth, googleAuthProvider);
       const idToken = await result.user.getIdToken();
       const { user } = await login(idToken);
       setUser(user);
-
-      if (callback) callback();
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoadingAuthState(false);
     }
   }, []);
 
-  const signInByLine = useCallback(async (callback?: () => void) => {
-    setLoadingAuthState(true);
+  const signInByLine = useCallback(async () => {
     try {
       const result = await signInWithPopup(auth, lineAuthProvider);
       const idToken = await result.user.getIdToken();
       const { user } = await login(idToken);
       setUser(user);
-
-      if (callback) callback();
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoadingAuthState(false);
     }
   }, []);
 
-  const signOut = useCallback(async (callback?: () => void) => {
+  const signOut = useCallback(async () => {
     try {
       await signOutFirebase(auth);
       const options = {
@@ -118,8 +102,6 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
       };
       await fetch(`/api/logout`, options);
       setUser(null);
-
-      if (callback) callback();
     } catch (error) {
       console.error(error);
     }
@@ -149,7 +131,6 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
         signInByGoogle,
         signInByLine,
         signOut,
-        loadingAuthState,
         getAuthProviderName,
         convertProviderIdToName,
       }}

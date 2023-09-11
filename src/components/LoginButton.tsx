@@ -1,23 +1,29 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./GlobalContext";
-import { useRouter } from "next/navigation";
 
 const LoginButton = () => {
-  const router = useRouter();
-  const { user, loadingAuthState, signInByGoogle } = useContext(GlobalContext);
+  const { user, signInByGoogle } = useContext(GlobalContext);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
-      router.replace("/");
+      window.location.reload();
     }
-  }, [router, user]);
+  }, [user]);
 
-  return loadingAuthState && !user ? (
+  return loading ? (
     <div>loading...</div>
   ) : (
-    <button onClick={() => signInByGoogle()}>Sign in with Google</button>
+    <button
+      onClick={() => {
+        setLoading(true);
+        signInByGoogle();
+      }}
+    >
+      Sign in with Google
+    </button>
   );
 };
 
