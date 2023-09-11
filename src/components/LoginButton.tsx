@@ -1,17 +1,23 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalContext } from "./GlobalContext";
 import { useRouter } from "next/navigation";
 
 const LoginButton = () => {
   const router = useRouter();
-  const { signInByGoogle } = useContext(GlobalContext);
+  const { user, loadingAuthState, signInByGoogle } = useContext(GlobalContext);
 
-  return (
-    <button onClick={() => signInByGoogle(() => router.replace("/"))}>
-      Sign in with Google
-    </button>
+  useEffect(() => {
+    if (user) {
+      router.replace("/");
+    }
+  }, [router, user]);
+
+  return loadingAuthState && !user ? (
+    <div>loading...</div>
+  ) : (
+    <button onClick={() => signInByGoogle()}>Sign in with Google</button>
   );
 };
 
