@@ -1,14 +1,10 @@
 import { Logger } from "@/utils/logger";
-import {
-  applicationDefault,
-  getApp,
-  getApps,
-  initializeApp,
-} from "firebase-admin/app";
+import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 
 const firebaseAdminConfig = {
-  credential: applicationDefault(),
+  credential: cert(JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIAL || "")),
+  databaseURL: process.env.FIREBASE_ADMIN_DATABASE_URL,
 };
 
 function initializeFirebaseAdmin() {
