@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -6,7 +6,7 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 
-let app;
+let app: FirebaseApp;
 if (!getApps().length) {
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -32,4 +32,4 @@ googleAuthProvider.setCustomParameters({
 const lineAuthProvider = new OAuthProvider("oidc.line");
 lineAuthProvider.addScope("openid");
 
-export { googleAuthProvider, lineAuthProvider };
+export { app, googleAuthProvider, lineAuthProvider };

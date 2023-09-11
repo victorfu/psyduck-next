@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./GlobalContext";
+import AnalyticsHelper from "@/lib/analytics-helper";
 
 const LoginButton = () => {
   const { user, signInByGoogle } = useContext(GlobalContext);
@@ -18,6 +19,7 @@ const LoginButton = () => {
   ) : (
     <button
       onClick={() => {
+        AnalyticsHelper.getInstance().logEvent("login", "click");
         setLoading(true);
         signInByGoogle();
       }}

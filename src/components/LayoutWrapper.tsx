@@ -5,6 +5,7 @@ import { GlobalContext } from "./GlobalContext";
 import Link from "next/link";
 import useClickOutside from "./useClickOutside";
 import useIsMobile from "./useIsMobile";
+import AnalyticsHelper from "@/lib/analytics-helper";
 
 const NavigationLinks = ({ isMobile }: { isMobile: Boolean | undefined }) => {
   const { signOut } = useContext(GlobalContext);
@@ -22,6 +23,7 @@ const NavigationLinks = ({ isMobile }: { isMobile: Boolean | undefined }) => {
       <li>
         <button
           onClick={async () => {
+            AnalyticsHelper.getInstance().logEvent("logout", "click");
             await signOut();
             window.location.href = "/login";
           }}
