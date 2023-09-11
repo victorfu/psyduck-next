@@ -1,8 +1,8 @@
 import "server-only";
-import getUserQuickInfo from "@/utils/getUserQuickInfo";
+import getUserAuthInfo from "@/utils/getUserAuthInfo";
 
 export default async function Home() {
-  const userInfo = getUserQuickInfo();
+  const userInfo = getUserAuthInfo();
 
   return (
     <>

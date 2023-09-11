@@ -29,7 +29,7 @@ type Account = {
   providerData: ProviderData[];
 };
 
-type UserQuickInfo = {
+type UserAuthInfo = {
   uid: string;
   email: string;
   displayName: string;

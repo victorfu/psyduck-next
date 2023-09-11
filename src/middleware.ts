@@ -51,9 +51,8 @@ export async function middleware(request: NextRequest) {
 
   // Add uid to request headers for logged in users
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("uid", uid);
   requestHeaders.set(
-    "user-quick-info",
+    "user-auth-info",
     JSON.stringify({ uid, email, displayName, photoURL }),
   );
 
