@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { Logger } from "./utils/logger";
+import { Logger } from "@/lib/logger";
 
 const fetchLogin = async (apiUrl: string, session: string) => {
   if (!session) {

@@ -1,4 +1,4 @@
-import { Logger } from "@/utils/logger";
+import { Logger } from "@/lib/logger";
 import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 
