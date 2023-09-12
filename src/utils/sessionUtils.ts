@@ -1,27 +1,26 @@
-import { NextResponse } from "next/server";
 import { verifySessionCookieAndGetUser } from "@/lib/firebase-admin-helper";
 import { cookies } from "next/headers";
 import { headers } from "next/headers";
 
 /***
  * If session cookie is valid, return user object. Otherwise, return 401 or 400.
- *
- * @returns {NextResponse | { isLoggedIn: boolean, user: any }}
  */
-export async function verifySessionAndGetUser() {
-  const session = cookies().get("session")?.value || "";
-  if (!session) {
-    return NextResponse.json({ isLoggedIn: false }, { status: 401 });
-  }
-
+export async function verifySessionAndGetUser(): Promise<{
+  error: string | null;
+  user: any;
+}> {
   try {
+    const session = cookies().get("session")?.value || "";
+    if (!session) {
+      return { error: "Empty session", user: null };
+    }
     const user = await verifySessionCookieAndGetUser(session);
     if (!user) {
-      return NextResponse.json({ isLoggedIn: false }, { status: 401 });
+      return { error: "Invalid session", user: null };
     }
-    return { isLoggedIn: true, user };
+    return { error: null, user };
   } catch (error) {
-    return NextResponse.json({ isLoggedIn: false }, { status: 400 });
+    return { error: "Invalid session", user: null };
   }
 }
 

@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { verifySessionAndGetUser } from "@/utils/sessionUtils";
 
 export async function GET() {
-  const verificationResult = await verifySessionAndGetUser();
-  if (verificationResult instanceof NextResponse) {
-    return verificationResult;
+  const { error, user } = await verifySessionAndGetUser();
+  if (error) {
+    return NextResponse.json({ error }, { status: 401 });
   }
 
-  return NextResponse.json(verificationResult, { status: 200 });
+  return NextResponse.json({ user }, { status: 200 });
 }

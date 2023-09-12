@@ -4,7 +4,6 @@ import {
   verifyIdTokenAndGetUser,
 } from "@/lib/firebase-admin-helper";
 import { cookies } from "next/headers";
-import { Logger } from "@/lib/logger";
 
 export async function GET() {
   const session = cookies().get("session")?.value || "";

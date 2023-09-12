@@ -1,6 +1,5 @@
 import "server-only";
 import { verifySessionAndGetUser } from "@/utils/sessionUtils";
-import { NextResponse } from "next/server";
 import { listUsers } from "@/lib/firebase-admin-helper";
 import { convertProviderIdToName } from "@/utils/convertProviderIdToName";
 import AdminInput from "@/components/AdminInput";
@@ -8,12 +7,10 @@ import AdminInput from "@/components/AdminInput";
 const PermissionDenied = () => <div>Permission denied</div>;
 
 async function AdminPage() {
-  const verificationResult = await verifySessionAndGetUser();
-  if (verificationResult instanceof NextResponse) {
+  const { error, user } = await verifySessionAndGetUser();
+  if (error) {
     return <PermissionDenied />;
   }
-
-  const { user } = verificationResult;
   const { customClaims } = user;
   if (customClaims?.isAdmin !== true) {
     return <PermissionDenied />;
