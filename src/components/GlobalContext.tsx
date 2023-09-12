@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useState, FC, ReactNode } from "react";
+import { createContext, useCallback, FC, ReactNode } from "react";
 import { signInWithPopup, signOut as signOutFirebase } from "firebase/auth";
 import {
   auth,
@@ -9,16 +9,14 @@ import {
 } from "@/lib/firebase-web-helper";
 
 interface GlobalContextProps {
-  user: User | null;
-  signInByGoogle: () => Promise<void>;
-  signInByLine: () => Promise<void>;
+  signInByGoogle: () => Promise<User | null>;
+  signInByLine: () => Promise<User | null>;
   signOut: () => Promise<void>;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
-  user: null,
-  signInByGoogle: () => Promise.resolve(),
-  signInByLine: () => Promise.resolve(),
+  signInByGoogle: () => Promise.resolve<User | null>(null),
+  signInByLine: () => Promise.resolve<User | null>(null),
   signOut: () => Promise.resolve(),
 });
 
@@ -35,32 +33,31 @@ const login = async (idToken: string) => {
     },
   };
   const res = await fetch(`/api/login`, options);
-  const result = await res.json();
-  return result;
+  return await res.json();
 };
 
 export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  const signInByGoogle = useCallback(async () => {
+  const signInByGoogle = useCallback(async (): Promise<User | null> => {
     try {
       const result = await signInWithPopup(auth, googleAuthProvider);
       const idToken = await result.user.getIdToken();
       const { user } = await login(idToken);
-      setUser(user);
+      return user;
     } catch (error) {
       console.error(error);
+      return null;
     }
   }, []);
 
-  const signInByLine = useCallback(async () => {
+  const signInByLine = useCallback(async (): Promise<User | null> => {
     try {
       const result = await signInWithPopup(auth, lineAuthProvider);
       const idToken = await result.user.getIdToken();
       const { user } = await login(idToken);
-      setUser(user);
+      return user;
     } catch (error) {
       console.error(error);
+      return null;
     }
   }, []);
 
@@ -74,7 +71,6 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
         },
       };
       await fetch(`/api/logout`, options);
-      setUser(null);
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +79,6 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        user,
         signInByGoogle,
         signInByLine,
         signOut,

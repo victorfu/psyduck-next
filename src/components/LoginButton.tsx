@@ -1,28 +1,27 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { GlobalContext } from "./GlobalContext";
 import AnalyticsHelper from "@/lib/analytics-helper";
 import LoadingSpinner from "./LoadingSpinner";
 
 const LoginButton = () => {
-  const { user, signInByGoogle } = useContext(GlobalContext);
+  const { signInByGoogle } = useContext(GlobalContext);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      window.location.reload();
-    }
-  }, [user]);
 
   return loading ? (
     <LoadingSpinner />
   ) : (
     <button
-      onClick={() => {
+      onClick={async () => {
         AnalyticsHelper.getInstance().logEvent("login", "click");
         setLoading(true);
-        signInByGoogle();
+        const user = await signInByGoogle();
+        if (user) {
+          window.location.reload();
+        } else {
+          setLoading(false);
+        }
       }}
     >
       Sign in with Google
