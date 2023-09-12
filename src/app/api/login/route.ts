@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   if (!authHeader) {
     return NextResponse.json(
       {
-        message: "Authorization header missing",
+        error: "Authorization header missing",
       },
       {
         status: 401,
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
   if (!idToken) {
     return NextResponse.json(
       {
-        message: "IdToken missing",
+        error: "IdToken missing",
       },
       {
         status: 401,
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        message: "Invalid IdToken",
+        error: "Invalid IdToken",
       },
       {
         status: 401,
