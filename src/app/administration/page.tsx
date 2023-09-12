@@ -1,12 +1,23 @@
 import "server-only";
 import { verifySessionAndGetUser } from "@/utils/sessionUtils";
-import { listUsers } from "@/lib/firebase-admin-helper";
+import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
 import { convertProviderIdToName } from "@/utils/convertProviderIdToName";
 import AdminInput from "@/components/AdminInput";
+import { revalidatePath } from "next/cache";
 
 const PermissionDenied = () => <div>Permission denied</div>;
 
 async function AdminPage() {
+  const toggle = async (uid: string, isAdmin: boolean) => {
+    "use server";
+    try {
+      await adminAuth.setCustomUserClaims(uid, { isAdmin: !isAdmin });
+      revalidatePath("/administration");
+    } catch (error) {
+      console.error("Failed to toggle admin status:", error);
+    }
+  };
+
   const { error, user } = await verifySessionAndGetUser();
   if (error) {
     return <PermissionDenied />;
@@ -27,7 +38,7 @@ async function AdminPage() {
             <div className="user-item-field">
               <strong>Display Name: </strong>
               {user.displayName}
-              <AdminInput uid={user.uid} isAdmin={isAdmin} />
+              <AdminInput uid={user.uid} isAdmin={isAdmin} toggle={toggle} />
               {isAdmin && <span className="admin-label">admin</span>}
             </div>
             <div className="user-item-field">
