@@ -1,13 +1,13 @@
 import "server-only";
-import getUserAuthInfo from "@/utils/getUserAuthInfo";
+import { getAuthInfo } from "@/utils/sessionUtils";
 
 export default async function Home() {
-  const userInfo = getUserAuthInfo();
+  const authInfo = getAuthInfo();
 
   return (
     <>
       <div>
-        Hello! {userInfo?.displayName} {userInfo?.email}
+        Hello! {authInfo?.displayName} {authInfo?.email}
       </div>
     </>
   );

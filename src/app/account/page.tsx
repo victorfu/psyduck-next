@@ -1,9 +1,9 @@
 import "server-only";
 import Image from "next/image";
-import getUserAuthInfo from "@/utils/getUserAuthInfo";
+import { getAuthInfo } from "@/utils/sessionUtils";
 
 function AccountPage() {
-  const userInfo = getUserAuthInfo();
+  const authInfo = getAuthInfo();
 
   return (
     <div>
@@ -17,12 +17,12 @@ function AccountPage() {
         height={0}
         width={0}
         sizes={"100vw"}
-        src={userInfo?.photoURL || ""}
+        src={authInfo?.photoURL || ""}
         alt="profile"
       />
-      <div>uid: {userInfo?.uid}</div>
-      <div>displayName: {userInfo?.displayName}</div>
-      <div>email: {userInfo?.email}</div>
+      <div>uid: {authInfo?.uid}</div>
+      <div>displayName: {authInfo?.displayName}</div>
+      <div>email: {authInfo?.email}</div>
     </div>
   );
 }

@@ -29,6 +29,16 @@ export async function getUser(uid: string) {
   }
 }
 
+export async function listUsers() {
+  try {
+    const { users } = await adminAuth.listUsers();
+    return users;
+  } catch (error) {
+    console.error("Error listing users:", error);
+    throw error;
+  }
+}
+
 export async function verifyIdTokenAndGetUser(token: string) {
   try {
     const decodedToken = await adminAuth.verifyIdToken(token, true);
@@ -36,6 +46,19 @@ export async function verifyIdTokenAndGetUser(token: string) {
     return await adminAuth.getUser(uid);
   } catch (error) {
     console.error("Error verifying ID token:", error);
+    throw error;
+  }
+}
+
+export async function verifySessionCookie(sessionCookie: string) {
+  try {
+    const decodedToken = await adminAuth.verifySessionCookie(
+      sessionCookie,
+      true,
+    );
+    return decodedToken;
+  } catch (error) {
+    console.error("Error verifying session cookie:", error);
     throw error;
   }
 }

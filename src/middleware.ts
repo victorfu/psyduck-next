@@ -26,11 +26,11 @@ const redirectTo = (url: string, request: NextRequest) =>
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionValue = request.cookies.get("session")?.value || "";
-  const { isLoggedIn, uid, email, displayName, photoURL } = await fetchLogin(
+  const { isLoggedIn, authInfo } = await fetchLogin(
     `${request.nextUrl.origin}`,
     sessionValue,
   );
-  Logger.log(`[${pathname}][isLoggedIn: ${isLoggedIn}]`);
+  Logger.log(`[${pathname}][is-logged-in: ${isLoggedIn}]`);
 
   // Redirect logic for /login path
   if (pathname === "/login" && isLoggedIn) {
@@ -47,14 +47,12 @@ export async function middleware(request: NextRequest) {
     return redirectTo("/login", request);
   }
 
-  Logger.log(`[${pathname}][${uid}][${email}][${displayName}][${photoURL}]`);
+  const authInfoString = JSON.stringify(authInfo);
+  Logger.log(`[${pathname}][auth-info: ${authInfoString}]`);
 
   // Add uid to request headers for logged in users
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set(
-    "user-auth-info",
-    JSON.stringify({ uid, email, displayName, photoURL }),
-  );
+  requestHeaders.set("auth-info", authInfoString || "");
 
   return NextResponse.next({
     request: {

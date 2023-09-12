@@ -13,10 +13,10 @@ type Metadata = {
 };
 
 type CustomClaims = {
-  admin: boolean;
+  isAdmin: boolean;
 };
 
-type Account = {
+type User = {
   uid: string;
   email: string;
   emailVerified: boolean;
@@ -29,7 +29,12 @@ type Account = {
   providerData: ProviderData[];
 };
 
-type UserAuthInfo = {
+type verificationResult = {
+  isLoggedIn: boolean;
+  user: User;
+};
+
+type AuthInfo = {
   uid: string;
   email: string;
   displayName: string;

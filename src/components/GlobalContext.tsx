@@ -8,16 +8,13 @@ import {
   FC,
   ReactNode,
 } from "react";
-import {
-  User,
-  signInWithPopup,
-  signOut as signOutFirebase,
-} from "firebase/auth";
+import { signInWithPopup, signOut as signOutFirebase } from "firebase/auth";
 import {
   auth,
   googleAuthProvider,
   lineAuthProvider,
 } from "@/lib/firebase-web-helper";
+import { convertProviderIdToName } from "@/utils/convertProviderIdToName";
 
 interface GlobalContextProps {
   user: User | null;
@@ -25,7 +22,6 @@ interface GlobalContextProps {
   signInByLine: () => Promise<void>;
   signOut: () => Promise<void>;
   getAuthProviderName: () => string;
-  convertProviderIdToName: (providerId: string) => string;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
@@ -34,7 +30,6 @@ export const GlobalContext = createContext<GlobalContextProps>({
   signInByLine: () => Promise.resolve(),
   signOut: () => Promise.resolve(),
   getAuthProviderName: () => "",
-  convertProviderIdToName: () => "",
 });
 
 interface GlobalProviderProps {
@@ -114,16 +109,6 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
     return "";
   };
 
-  const convertProviderIdToName = (providerId: string): string => {
-    if (providerId === "google.com") {
-      return "Google";
-    }
-    if (providerId === "oidc.line") {
-      return "LINE";
-    }
-    return providerId;
-  };
-
   return (
     <GlobalContext.Provider
       value={{
@@ -132,7 +117,6 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
         signInByLine,
         signOut,
         getAuthProviderName,
-        convertProviderIdToName,
       }}
     >
       {children}

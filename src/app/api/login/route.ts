@@ -4,33 +4,34 @@ import {
   verifyIdTokenAndGetUser,
 } from "@/lib/firebase-admin-helper";
 import { cookies } from "next/headers";
+import { Logger } from "@/lib/logger";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = cookies().get("session")?.value || "";
-
   if (!session) {
     return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 
-  const decodedClaims = await adminAuth.verifySessionCookie(session, true);
-
-  if (!decodedClaims) {
+  const decodedToken = await adminAuth.verifySessionCookie(session, true);
+  if (!decodedToken) {
     return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 
   return NextResponse.json(
     {
       isLoggedIn: true,
-      uid: decodedClaims.uid,
-      email: decodedClaims.email,
-      displayName: decodedClaims.name,
-      photoURL: decodedClaims.picture,
+      authInfo: {
+        uid: decodedToken.uid,
+        email: decodedToken.email,
+        displayName: decodedToken.name,
+        photoURL: decodedToken.picture,
+      },
     },
     { status: 200 },
   );
 }
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   if (!authHeader) {
     return NextResponse.json(
