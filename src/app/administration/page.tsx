@@ -1,8 +1,5 @@
 import "server-only";
-import {
-  getUserFromHeader,
-  verifySessionAndGetUser,
-} from "@/utils/sessionUtils";
+import { getUserFromHeader } from "@/utils/sessionUtils";
 import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
 import { convertProviderIdToName } from "@/utils/convertProviderIdToName";
 import AdminInput from "@/components/AdminInput";
