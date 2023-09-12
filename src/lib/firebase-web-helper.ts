@@ -4,7 +4,10 @@ import {
   GoogleAuthProvider,
   OAuthProvider,
   inMemoryPersistence,
+  signInWithPopup,
+  signOut as signOutFirebase,
 } from "firebase/auth";
+import { postLogin } from "./apis";
 
 let app: FirebaseApp;
 if (!getApps().length) {
@@ -31,5 +34,44 @@ googleAuthProvider.setCustomParameters({
 });
 const lineAuthProvider = new OAuthProvider("oidc.line");
 lineAuthProvider.addScope("openid");
+
+export const signInByGoogle = async (): Promise<User | null> => {
+  try {
+    const result = await signInWithPopup(auth, googleAuthProvider);
+    const idToken = await result.user.getIdToken();
+    const { user } = await postLogin(idToken);
+    return user;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const signInByLine = async (): Promise<User | null> => {
+  try {
+    const result = await signInWithPopup(auth, lineAuthProvider);
+    const idToken = await result.user.getIdToken();
+    const { user } = await postLogin(idToken);
+    return user;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const signOut = async () => {
+  try {
+    await signOutFirebase(auth);
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    await fetch(`/api/logout`, options);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export { app, googleAuthProvider, lineAuthProvider };

@@ -1,14 +1,13 @@
 "use client";
 
-import { useContext, useRef, useState } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import useClickOutside from "./useClickOutside";
 import useIsMobile from "./useIsMobile";
 import AnalyticsHelper from "@/lib/analytics-helper";
+import { signOut } from "@/lib/firebase-web-helper";
 
 const NavigationLinks = ({ isMobile }: { isMobile: Boolean | undefined }) => {
-  const { signOut } = useContext(GlobalContext);
   if (isMobile === undefined) {
     return <ul></ul>;
   }

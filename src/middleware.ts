@@ -1,22 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Logger } from "@/lib/logger";
-
-const login = async (apiUrl: string, session: string) => {
-  if (!session) {
-    return { error: "Empty session", user: null };
-  }
-  try {
-    const response = await fetch(`${apiUrl}/api/login`, {
-      headers: {
-        Cookie: `session=${session}`,
-      },
-    });
-    return await response.json();
-  } catch (error) {
-    return { error: "Invalid session", user: null };
-  }
-};
+import { getLogin } from "./lib/apis";
 
 const redirectTo = (url: string, request: NextRequest) =>
   NextResponse.redirect(new URL(url, request.url));
@@ -24,7 +9,7 @@ const redirectTo = (url: string, request: NextRequest) =>
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionValue = request.cookies.get("session")?.value || "";
-  const { error, user } = await login(
+  const { error, user } = await getLogin(
     `${request.nextUrl.origin}`,
     sessionValue,
   );

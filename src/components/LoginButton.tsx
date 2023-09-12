@@ -1,12 +1,11 @@
 "use client";
 
-import { useContext, useState } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { useState } from "react";
 import AnalyticsHelper from "@/lib/analytics-helper";
 import LoadingSpinner from "./LoadingSpinner";
+import { signInByGoogle } from "@/lib/firebase-web-helper";
 
 const LoginButton = () => {
-  const { signInByGoogle } = useContext(GlobalContext);
   const [loading, setLoading] = useState(false);
 
   return loading ? (
