@@ -28,15 +28,3 @@ type User = {
   tokensValidAfterTime: string;
   providerData: ProviderData[];
 };
-
-type verificationResult = {
-  isLoggedIn: boolean;
-  user: User;
-};
-
-type AuthInfo = {
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-};

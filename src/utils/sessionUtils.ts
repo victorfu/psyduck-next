@@ -24,12 +24,12 @@ export async function verifySessionAndGetUser(): Promise<{
   }
 }
 
-export const getAuthInfoFromHeader = (): AuthInfo | null => {
+export const getUserFromHeader = (): User | null => {
   const headersList = headers();
-  const userInfoString = headersList.get("auth-info");
-  const userInfo: AuthInfo | null = userInfoString
-    ? JSON.parse(userInfoString)
-    : null;
-
-  return userInfo;
+  const userString = headersList.get("user");
+  if (!userString) {
+    return null;
+  }
+  const user: User | null = userString ? JSON.parse(userString) : null;
+  return user;
 };

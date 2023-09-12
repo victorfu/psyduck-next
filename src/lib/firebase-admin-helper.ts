@@ -12,7 +12,7 @@ function initializeFirebaseAdmin() {
     Logger.log(`Firestore initialized`);
     return initializeApp(firebaseAdminConfig);
   } else {
-    Logger.log(`Firestore resused`);
+    Logger.log(`Firestore reused`);
     return getApp();
   }
 }
@@ -45,20 +45,7 @@ export async function verifyIdTokenAndGetUser(token: string) {
     const uid = decodedToken.uid;
     return await adminAuth.getUser(uid);
   } catch (error) {
-    console.error("Error verifying ID token:", error);
-    throw error;
-  }
-}
-
-export async function verifySessionCookie(sessionCookie: string) {
-  try {
-    const decodedToken = await adminAuth.verifySessionCookie(
-      sessionCookie,
-      true,
-    );
-    return decodedToken;
-  } catch (error) {
-    console.error("Error verifying session cookie:", error);
+    console.error("Error verifying id token:", error);
     throw error;
   }
 }

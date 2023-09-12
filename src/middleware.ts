@@ -4,9 +4,8 @@ import { Logger } from "@/lib/logger";
 
 const fetchLogin = async (apiUrl: string, session: string) => {
   if (!session) {
-    return { isLoggedIn: false };
+    return { error: "Empty session", user: null };
   }
-
   try {
     const response = await fetch(`${apiUrl}/api/login`, {
       headers: {
@@ -15,8 +14,7 @@ const fetchLogin = async (apiUrl: string, session: string) => {
     });
     return await response.json();
   } catch (error) {
-    console.error("Error in fetchLogin: ", error);
-    return { isLoggedIn: false };
+    return { error: "Invalid session", user: null };
   }
 };
 
@@ -26,11 +24,11 @@ const redirectTo = (url: string, request: NextRequest) =>
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionValue = request.cookies.get("session")?.value || "";
-  const { isLoggedIn, authInfo } = await fetchLogin(
+  const { error, user } = await fetchLogin(
     `${request.nextUrl.origin}`,
     sessionValue,
   );
-  Logger.log(`[${pathname}][is-logged-in: ${isLoggedIn}]`);
+  const isLoggedIn = !error && user;
 
   // Redirect logic for /login path
   if (pathname === "/login" && isLoggedIn) {
@@ -47,12 +45,11 @@ export async function middleware(request: NextRequest) {
     return redirectTo("/login", request);
   }
 
-  const authInfoString = JSON.stringify(authInfo);
-  Logger.log(`[${pathname}][auth-info: ${authInfoString}]`);
+  const userString = JSON.stringify(user);
+  Logger.log(`[${pathname}][user -> ${userString}]`);
 
-  // Add uid to request headers for logged in users
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("auth-info", authInfoString || "");
+  requestHeaders.set("user", userString);
 
   return NextResponse.next({
     request: {
@@ -62,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/account/:path*"],
+  matcher: ["/", "/login", "/account/:path*", "/administration"],
 };

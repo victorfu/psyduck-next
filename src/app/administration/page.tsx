@@ -1,5 +1,8 @@
 import "server-only";
-import { verifySessionAndGetUser } from "@/utils/sessionUtils";
+import {
+  getUserFromHeader,
+  verifySessionAndGetUser,
+} from "@/utils/sessionUtils";
 import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
 import { convertProviderIdToName } from "@/utils/convertProviderIdToName";
 import AdminInput from "@/components/AdminInput";
@@ -18,8 +21,8 @@ async function AdminPage() {
     }
   };
 
-  const { error, user } = await verifySessionAndGetUser();
-  if (error) {
+  const user = getUserFromHeader();
+  if (!user) {
     return <PermissionDenied />;
   }
   const { customClaims } = user;
