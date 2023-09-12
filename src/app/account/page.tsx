@@ -1,9 +1,9 @@
 import "server-only";
 import Image from "next/image";
-import { getAuthInfo } from "@/utils/sessionUtils";
+import { getAuthInfoFromHeader } from "@/utils/sessionUtils";
 
 function AccountPage() {
-  const authInfo = getAuthInfo();
+  const authInfo = getAuthInfoFromHeader();
 
   return (
     <div>

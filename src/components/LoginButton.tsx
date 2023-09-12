@@ -3,6 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./GlobalContext";
 import AnalyticsHelper from "@/lib/analytics-helper";
+import LoadingSpinner from "./LoadingSpinner";
 
 const LoginButton = () => {
   const { user, signInByGoogle } = useContext(GlobalContext);
@@ -15,7 +16,7 @@ const LoginButton = () => {
   }, [user]);
 
   return loading ? (
-    <div>loading...</div>
+    <LoadingSpinner />
   ) : (
     <button
       onClick={() => {

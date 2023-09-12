@@ -1,8 +1,8 @@
 import "server-only";
-import { getAuthInfo } from "@/utils/sessionUtils";
+import { getAuthInfoFromHeader } from "@/utils/sessionUtils";
 
 export default async function Home() {
-  const authInfo = getAuthInfo();
+  const authInfo = getAuthInfoFromHeader();
 
   return (
     <>

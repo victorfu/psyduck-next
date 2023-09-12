@@ -25,7 +25,7 @@ export async function verifySessionAndGetUser() {
   }
 }
 
-export const getAuthInfo = (): AuthInfo | null => {
+export const getAuthInfoFromHeader = (): AuthInfo | null => {
   const headersList = headers();
   const userInfoString = headersList.get("auth-info");
   const userInfo: AuthInfo | null = userInfoString
