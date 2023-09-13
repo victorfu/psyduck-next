@@ -1,7 +1,7 @@
 import "server-only";
-import { getUserFromHeader } from "@/utils/sessionUtils";
+import { getUserFromHeader } from "@/utils/session-utils";
 import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
-import { convertProviderIdToName } from "@/utils/convertProviderIdToName";
+import { convertProviderIdToName } from "@/utils/convert-provider-id-to-name";
 import AdminInput from "@/components/AdminInput";
 import { revalidatePath } from "next/cache";
 

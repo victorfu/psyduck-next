@@ -2,8 +2,8 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import useClickOutside from "./useClickOutside";
-import useIsMobile from "./useIsMobile";
+import useClickOutside from "./use-ulick-outside";
+import useIsMobile from "./use-is-mobile";
 import AnalyticsHelper from "@/lib/analytics-helper";
 import { signOut } from "@/lib/firebase-web-helper";
 

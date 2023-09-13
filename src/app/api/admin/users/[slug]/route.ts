@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { verifySessionAndGetUser } from "@/utils/sessionUtils";
+import { verifySessionAndGetUser } from "@/utils/session-utils";
 import { adminAuth } from "@/lib/firebase-admin-helper";
 import { isEmpty } from "lodash";
 

@@ -1,4 +1,4 @@
-import useWindowSize from "./useWindowSize";
+import useWindowSize from "./use-window-size";
 
 const useIsMobile = () => {
   const { width: windowWidth } = useWindowSize();

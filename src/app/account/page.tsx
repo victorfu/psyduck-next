@@ -1,6 +1,6 @@
 import "server-only";
 import Image from "next/image";
-import { getUserFromHeader } from "@/utils/sessionUtils";
+import { getUserFromHeader } from "@/utils/session-utils";
 
 function AccountPage() {
   const user = getUserFromHeader();

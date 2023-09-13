@@ -4,7 +4,7 @@ import {
   verifyIdTokenAndGetUser,
 } from "@/lib/firebase-admin-helper";
 import { cookies } from "next/headers";
-import { verifySessionAndGetUser } from "@/utils/sessionUtils";
+import { verifySessionAndGetUser } from "@/utils/session-utils";
 
 export async function GET() {
   const { error, user } = await verifySessionAndGetUser();
