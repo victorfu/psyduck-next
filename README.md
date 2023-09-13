@@ -6,7 +6,7 @@ A Next.js 13 boilerplate with firebase authentication and firestore, based on Re
 
 Enable Google Sign-In in your firebase project.
 
-### Web Client
+### Client Side
 
 Configure the following environment variables for the web app to use firebase:
 
@@ -22,7 +22,7 @@ NEXT_PUBLIC_MEASUREMENT_ID
 
 `NEXT_PUBLIC_*` variables are public variables that can be accessed in the browser. The rest are private variables that can only be accessed in the server.
 
-### Nodejs Server
+### Server Side
 
 Configure the following environment variables for the server to use firebase-admin:
 
