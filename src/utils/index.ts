@@ -7,3 +7,7 @@ export const convertProviderIdToName = (providerId: string): string => {
   }
   return providerId;
 };
+
+export function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
