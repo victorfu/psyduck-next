@@ -11,6 +11,10 @@ async function AdminPage() {
   const toggle = async (uid: string, isAdmin: boolean) => {
     "use server";
     try {
+      if (uid === process.env.OWNER_UID) {
+        throw new Error("Cannot change owner status");
+      }
+
       await adminAuth.setCustomUserClaims(uid, { isAdmin: !isAdmin });
       revalidatePath("/administration");
     } catch (error) {
