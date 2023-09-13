@@ -3,8 +3,8 @@ import LoginButton from "@/components/LoginButton";
 
 function LoginPage() {
   return (
-    <div>
-      <div>Welcome to Psyduck Next</div>
+    <div className="flex flex-col justify-center items-center">
+      <div>Psyduck Next</div>
       <br />
       <LoginButton />
     </div>

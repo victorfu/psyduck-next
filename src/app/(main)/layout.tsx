@@ -1,16 +1,15 @@
-import "./globals.css";
+import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
-import { classNames } from "@/utils";
+import { METADATA_DESCRIPTION, METADATA_TITLE, classNames } from "@/utils";
 import { getUserFromHeader } from "@/utils/session-utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Psyduck-next",
-  description:
-    "Psyduck-next is a Next.js 13 boilerplate with firebase authentication and firestore, based on React, TypeScript, and Tailwind CSS.",
+  title: METADATA_TITLE,
+  description: METADATA_DESCRIPTION,
 };
 
 export default function RootLayout({
