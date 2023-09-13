@@ -34,22 +34,6 @@ export async function POST(
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  // if there is only one admin, prevent admin from removing admin role from themselves
-  if (body.isAdmin === false) {
-    if (target.customClaims?.isAdmin === true) {
-      const { users } = await adminAuth.listUsers();
-      const admins = users.filter(
-        (user) => user.customClaims?.isAdmin === true,
-      );
-      if (admins.length === 1) {
-        return NextResponse.json(
-          { error: "Cannot remove admin role from the last admin" },
-          { status: 403 },
-        );
-      }
-    }
-  }
-
   await adminAuth.setCustomUserClaims(uid, body);
   return NextResponse.json({}, { status: 200 });
 }

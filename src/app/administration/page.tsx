@@ -29,24 +29,29 @@ async function AdminPage() {
 
   const users = await listUsers();
   return (
-    <div className="user-list">
+    <div className="w-full flex flex-col">
       {users.map((user) => {
         const isAdmin = user.customClaims?.isAdmin === true;
         const providerId = user.providerData[0]?.providerId;
         return (
-          <div className={`user-item ${isAdmin ? "admin" : ""}`} key={user.uid}>
-            <div className="user-item-field">
-              <strong>Display Name: </strong>
-              {user.displayName}
+          <div
+            className={`border border-gray-300 p-4 rounded ${
+              isAdmin ? "bg-gray-200" : ""
+            } my-2`}
+            key={user.uid}
+          >
+            <div className="mb-1">
+              <strong className="mr-2">Display Name: </strong>
+              <span className="mr-2">{user.displayName}</span>
               <AdminInput uid={user.uid} isAdmin={isAdmin} toggle={toggle} />
-              {isAdmin && <span className="admin-label">admin</span>}
+              {isAdmin && <span className="text-red-500 ml-1">admin</span>}
             </div>
-            <div className="user-item-field">
-              <strong>Provider: </strong>
+            <div className="mb-1">
+              <strong className="mr-2">Provider: </strong>
               {convertProviderIdToName(providerId) ?? "N/A"}
             </div>
-            <div className="user-item-field">
-              <strong>Email: </strong>
+            <div className="mb-1">
+              <strong className="mr-2">Email: </strong>
               {user.email ?? "N/A"}
             </div>
           </div>
