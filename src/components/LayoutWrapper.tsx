@@ -7,9 +7,38 @@ import { classNames } from "@/utils";
 import Image from "next/image";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
-import { PATHNAME_ACCOUNT, PATHNAME_HOME } from "@/utils/constants";
+import {
+  PATHNAME_ACCOUNT,
+  PATHNAME_USERS,
+  PATHNAME_HOME,
+  PATHNAME_ITEMS,
+} from "@/utils/constants";
 
 const userNavigation = [{ name: "Logout", href: "/logout" }];
+
+const getNavigation = (pathname: string, isAdmin: boolean) => {
+  const nav = [
+    { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
+    {
+      name: "Account",
+      href: PATHNAME_ACCOUNT,
+      current: pathname === PATHNAME_ACCOUNT,
+    },
+  ];
+  if (isAdmin) {
+    nav.push({
+      name: "Users",
+      href: PATHNAME_USERS,
+      current: pathname === PATHNAME_USERS,
+    });
+    nav.push({
+      name: "Items",
+      href: PATHNAME_ITEMS,
+      current: pathname === PATHNAME_ITEMS,
+    });
+  }
+  return nav;
+};
 
 export default function LayoutWrapper({
   children,
@@ -19,14 +48,8 @@ export default function LayoutWrapper({
   user: User | null;
 }) {
   const pathname = usePathname();
-  const navigation = [
-    { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
-    {
-      name: "Account",
-      href: PATHNAME_ACCOUNT,
-      current: pathname === PATHNAME_ACCOUNT,
-    },
-  ];
+  const isAdmin = user?.customClaims?.isAdmin;
+  const navigation = getNavigation(pathname, !!isAdmin);
 
   return (
     <div className="min-h-full">

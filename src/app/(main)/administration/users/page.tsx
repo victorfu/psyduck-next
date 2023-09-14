@@ -1,13 +1,10 @@
 import "server-only";
-import { getUserFromHeader } from "@/utils/session-utils";
 import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
 import AdminInput from "@/components/AdminInput";
 import { revalidatePath } from "next/cache";
 import { convertProviderIdToName } from "@/utils";
 
-const PermissionDenied = () => <div>Permission denied</div>;
-
-async function AdminPage() {
+async function UsersPage() {
   const toggle = async (uid: string, isAdmin: boolean) => {
     "use server";
     try {
@@ -16,20 +13,11 @@ async function AdminPage() {
       }
 
       await adminAuth.setCustomUserClaims(uid, { isAdmin: !isAdmin });
-      revalidatePath("/administration");
+      revalidatePath("/administration/users");
     } catch (error) {
       console.error("Failed to toggle admin status:", error);
     }
   };
-
-  const user = getUserFromHeader();
-  if (!user) {
-    return <PermissionDenied />;
-  }
-  const { customClaims } = user;
-  if (customClaims?.isAdmin !== true) {
-    return <PermissionDenied />;
-  }
 
   const users = await listUsers();
   return (
@@ -65,4 +53,4 @@ async function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default UsersPage;

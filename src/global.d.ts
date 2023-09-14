@@ -28,3 +28,14 @@ type User = {
   tokensValidAfterTime: string;
   providerData: ProviderData[];
 };
+
+type Item = {
+  id: string;
+  title: string;
+  description: string;
+  enabled: boolean;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
+};
