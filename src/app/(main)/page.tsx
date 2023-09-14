@@ -1,7 +1,7 @@
 import "server-only";
 import { getUserFromHeader } from "@/utils/session-utils";
 
-export default async function Home() {
+export default function Home() {
   const user = getUserFromHeader();
 
   return (

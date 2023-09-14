@@ -2,38 +2,38 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Logger } from "@/lib/logger";
 import { getLogin } from "./lib/apis";
+import { PATHNAME_HOME, PATHNAME_LOGIN } from "./utils/constants";
 
-const redirectTo = (url: string, request: NextRequest) =>
-  NextResponse.redirect(new URL(url, request.url));
+const redirectTo = (url: string, request: NextRequest) => {
+  Logger.log(`Redirecting to ${url}`);
+  return NextResponse.redirect(new URL(url, request.url));
+};
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const sessionValue = request.cookies.get("session")?.value || "";
-  const { error, user } = await getLogin(
-    `${request.nextUrl.origin}`,
-    sessionValue,
-  );
-  const isLoggedIn = !error && user;
-
-  // Redirect logic for /login path
-  if (pathname === "/login" && isLoggedIn) {
-    Logger.log("Redirecting to /");
-    return redirectTo("/", request);
-  }
-  if (pathname === "/login" && !isLoggedIn) {
-    return NextResponse.next();
+  let isLoggedIn = false;
+  let useObj = null;
+  const sessionValue = request.cookies.get("session")?.value;
+  if (sessionValue) {
+    const { error, user } = await getLogin(
+      `${request.nextUrl.origin}`,
+      sessionValue,
+    );
+    isLoggedIn = !error && user;
+    useObj = user;
   }
 
-  // Redirect logic for non-/login paths
+  if (request.nextUrl.pathname === PATHNAME_LOGIN) {
+    return isLoggedIn
+      ? redirectTo(PATHNAME_HOME, request)
+      : NextResponse.next({ request });
+  }
+
   if (!isLoggedIn) {
-    Logger.log("Redirecting to /login");
-    return redirectTo("/login", request);
+    return redirectTo(PATHNAME_LOGIN, request);
   }
-
-  const userString = JSON.stringify(user);
-  Logger.log(`[${pathname}][user -> ${userString}]`);
 
   const requestHeaders = new Headers(request.headers);
+  const userString = JSON.stringify(useObj);
   requestHeaders.set("user", userString);
 
   return NextResponse.next({
@@ -44,5 +44,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/account/:path*", "/administration"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

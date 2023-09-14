@@ -1,7 +1,8 @@
 import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { METADATA_DESCRIPTION, METADATA_TITLE, classNames } from "@/utils";
+import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/utils/constants";
+import { classNames } from "@/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={classNames("h-full", inter.className)}>
         <main>
-          <div className="h-screen flex items-center justify-center">
-            {children}
-          </div>
+          <div className="h-screen">{children}</div>
         </main>
       </body>
     </html>

@@ -1,6 +1,7 @@
 import { Logger } from "@/lib/logger";
 import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
 
 const firebaseAdminConfig = {
   credential: cert(JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIAL || "")),
@@ -19,6 +20,7 @@ function initializeFirebaseAdmin() {
 
 const admin = initializeFirebaseAdmin();
 export const adminAuth = getAuth(admin);
+export const adminFirestore = getFirestore(admin);
 
 export async function getUser(uid: string) {
   try {
@@ -59,6 +61,21 @@ export async function verifySessionCookieAndGetUser(sessionCookie: string) {
     return await adminAuth.getUser(decodedToken.uid);
   } catch (error) {
     console.error("Error verifying session cookie:", error);
+    throw error;
+  }
+}
+
+export async function getItems() {
+  try {
+    const items = await adminFirestore.collection("items").get();
+    return items.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+  } catch (error) {
+    console.error("Error getting items:", error);
     throw error;
   }
 }

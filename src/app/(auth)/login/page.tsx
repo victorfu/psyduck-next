@@ -1,10 +1,11 @@
 import "server-only";
 import LoginButton from "@/components/LoginButton";
+import Logo from "@/components/Logo";
 
 function LoginPage() {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div>Psyduck Next</div>
+    <div className="flex flex-col items-center pt-36">
+      <Logo />
       <br />
       <LoginButton />
     </div>
