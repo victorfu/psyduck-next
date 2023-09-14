@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Logger } from "@/lib/logger";
 import { getLogin } from "./lib/apis";
-
-const PATHNAME_HOME = "/";
-const PATHNAME_LOGIN = "/login";
+import { PATHNAME_HOME, PATHNAME_LOGIN } from "./utils/constants";
 
 const redirectTo = (url: string, request: NextRequest) => {
   Logger.log(`Redirecting to ${url}`);
@@ -12,15 +10,19 @@ const redirectTo = (url: string, request: NextRequest) => {
 };
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const sessionValue = request.cookies.get("session")?.value || "";
-  const { error, user } = await getLogin(
-    `${request.nextUrl.origin}`,
-    sessionValue,
-  );
-  const isLoggedIn = !error && user;
+  let isLoggedIn = false;
+  let useObj = null;
+  const sessionValue = request.cookies.get("session")?.value;
+  if (sessionValue) {
+    const { error, user } = await getLogin(
+      `${request.nextUrl.origin}`,
+      sessionValue,
+    );
+    isLoggedIn = !error && user;
+    useObj = user;
+  }
 
-  if (pathname === PATHNAME_LOGIN) {
+  if (request.nextUrl.pathname === PATHNAME_LOGIN) {
     return isLoggedIn
       ? redirectTo(PATHNAME_HOME, request)
       : NextResponse.next({ request });
@@ -31,7 +33,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const requestHeaders = new Headers(request.headers);
-  const userString = JSON.stringify(user);
+  const userString = JSON.stringify(useObj);
   requestHeaders.set("user", userString);
 
   return NextResponse.next({

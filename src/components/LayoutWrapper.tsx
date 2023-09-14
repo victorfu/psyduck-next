@@ -6,12 +6,10 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { classNames } from "@/utils";
 import Image from "next/image";
 import Logo from "./Logo";
+import { usePathname } from "next/navigation";
+import { PATHNAME_ACCOUNT, PATHNAME_HOME } from "@/utils/constants";
 
-const navigation = [{ name: "Home", href: "/", current: true }];
-const userNavigation = [
-  { name: "Account", href: "/account" },
-  { name: "Logout", href: "/logout" },
-];
+const userNavigation = [{ name: "Logout", href: "/logout" }];
 
 export default function LayoutWrapper({
   children,
@@ -20,6 +18,16 @@ export default function LayoutWrapper({
   children: React.ReactNode;
   user: User | null;
 }) {
+  const pathname = usePathname();
+  const navigation = [
+    { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
+    {
+      name: "Account",
+      href: PATHNAME_ACCOUNT,
+      current: pathname === PATHNAME_ACCOUNT,
+    },
+  ];
+
   return (
     <div className="min-h-full">
       <Disclosure as="nav" className="border-b border-gray-200 bg-white">

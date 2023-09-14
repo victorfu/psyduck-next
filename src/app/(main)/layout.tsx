@@ -2,8 +2,9 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
-import { METADATA_DESCRIPTION, METADATA_TITLE, classNames } from "@/utils";
+import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/utils/constants";
 import { getUserFromHeader } from "@/utils/session-utils";
+import { classNames } from "@/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
