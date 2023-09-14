@@ -1,11 +1,17 @@
 import "server-only";
-import { getItems } from "@/lib/firebase-admin-helper";
+import { getItems, getUser } from "@/lib/firebase-admin-helper";
 import DeleteItemButton from "@/components/DeleteItemButton";
 import { formatIsoDate } from "@/utils";
 import ItemForm from "@/components/ItemForm";
 
 async function ItemsPage() {
   const items = await getItems();
+
+  const UpdatedBy = async ({ uid }: { uid: string }) => {
+    const user = await getUser(uid);
+    return <span className="text-sm">{user.displayName}</span>;
+  };
+
   return (
     <div className="container mx-auto">
       <ItemForm />
@@ -22,21 +28,23 @@ async function ItemsPage() {
             >
               <div className="flex-1">
                 <div>
-                  <strong className="text-sm font-semibold mr-2">
-                    Title:{" "}
-                  </strong>
+                  <strong className="text-sm font-semibold mr-2">Title:</strong>
                   <span className="text-sm">{item.title}</span>
                 </div>
                 <div>
                   <strong className="text-sm font-semibold mr-2">
-                    Description:{" "}
+                    Description:
                   </strong>
                   <span className="text-sm">{item.description}</span>
                 </div>
                 <div className="mb-1">
-                  <span className="text-sm">
-                    {formatIsoDate(item.updatedAt)}
-                  </span>
+                  <div>
+                    <strong className="text-sm font-semibold mr-2">
+                      Last updated:
+                    </strong>
+                    <UpdatedBy uid={item.updatedBy} />
+                  </div>
+                  <div className="text-sm">{formatIsoDate(item.updatedAt)}</div>
                 </div>
               </div>
               <DeleteItemButton item={item} />

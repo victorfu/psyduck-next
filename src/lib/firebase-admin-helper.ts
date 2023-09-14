@@ -80,34 +80,4 @@ export async function getItems() {
   }
 }
 
-export async function addItem(item: any) {
-  try {
-    const items = await adminFirestore.collection("items").add(item);
-    return items;
-  } catch (error) {
-    console.error("Error adding item:", error);
-    throw error;
-  }
-}
-
-export async function updateItem(id: string, item: Item) {
-  try {
-    const items = await adminFirestore.collection("items").doc(id).update(item);
-    return items;
-  } catch (error) {
-    console.error("Error updating item:", error);
-    throw error;
-  }
-}
-
-export async function deleteItem(id: string) {
-  try {
-    const items = await adminFirestore.collection("items").doc(id).delete();
-    return items;
-  } catch (error) {
-    console.error("Error deleting item:", error);
-    throw error;
-  }
-}
-
 export default admin;

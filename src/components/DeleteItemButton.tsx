@@ -1,6 +1,6 @@
 "use client";
 
-import { actionDeleteItem } from "@/app/(main)/administration/items/actions";
+import { deleteItem } from "@/app/(main)/administration/items/actions";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 const DeleteItemButton = ({ item }: { item: Item }) => {
@@ -8,7 +8,7 @@ const DeleteItemButton = ({ item }: { item: Item }) => {
   return (
     <button
       className="w-6 h-6 rounded-full bg-red-500 text-white hover:bg-red-600"
-      onClick={() => actionDeleteItem(item.id)}
+      onClick={() => deleteItem(item.id, "/administration/items")}
       disabled={pending}
     >
       X

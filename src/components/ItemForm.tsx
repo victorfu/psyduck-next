@@ -1,6 +1,6 @@
 "use client";
 
-import { actionAddItem } from "@/app/(main)/administration/items/actions";
+import { addItem } from "@/app/(main)/administration/items/actions";
 import { useRef } from "react";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
@@ -12,13 +12,17 @@ const ItemForm = () => {
     <div>
       <form
         ref={ref}
-        className="flex flex-col items-start bg-white rounded-lg p-8 shadow-md"
+        className="flex flex-col items-start bg-white rounded-lg p-4 shadow-md"
         action={async (formData) => {
-          await actionAddItem(formData);
+          const { error } = await addItem(formData, "/administration/items");
+          if (error) {
+            alert(error);
+            return;
+          }
           ref.current?.reset();
         }}
       >
-        <label className="mb-2 text-lg font-semibold" htmlFor="title">
+        <label className="mb-2 text-base font-semibold" htmlFor="title">
           Title
         </label>
         <input
@@ -28,7 +32,7 @@ const ItemForm = () => {
           id="title"
         />
 
-        <label className="mb-2 text-lg font-semibold" htmlFor="description">
+        <label className="mb-2 text-base font-semibold" htmlFor="description">
           Description
         </label>
         <input
@@ -43,7 +47,7 @@ const ItemForm = () => {
           type="submit"
           disabled={pending}
         >
-          Add
+          Add Item
         </button>
       </form>
     </div>
