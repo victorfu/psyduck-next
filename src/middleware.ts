@@ -3,8 +3,13 @@ import type { NextRequest } from "next/server";
 import { Logger } from "@/lib/logger";
 import { getLogin } from "./lib/apis";
 
-const redirectTo = (url: string, request: NextRequest) =>
-  NextResponse.redirect(new URL(url, request.url));
+const PATHNAME_HOME = "/";
+const PATHNAME_LOGIN = "/login";
+
+const redirectTo = (url: string, request: NextRequest) => {
+  Logger.log(`Redirecting to ${url}`);
+  return NextResponse.redirect(new URL(url, request.url));
+};
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,25 +20,18 @@ export async function middleware(request: NextRequest) {
   );
   const isLoggedIn = !error && user;
 
-  // Redirect logic for /login path
-  if (pathname === "/login" && isLoggedIn) {
-    Logger.log("Redirecting to /");
-    return redirectTo("/", request);
-  }
-  if (pathname === "/login" && !isLoggedIn) {
-    return NextResponse.next();
+  if (pathname === PATHNAME_LOGIN) {
+    return isLoggedIn
+      ? redirectTo(PATHNAME_HOME, request)
+      : NextResponse.next({ request });
   }
 
-  // Redirect logic for non-/login paths
   if (!isLoggedIn) {
-    Logger.log("Redirecting to /login");
-    return redirectTo("/login", request);
+    return redirectTo(PATHNAME_LOGIN, request);
   }
-
-  const userString = JSON.stringify(user);
-  Logger.log(`[${pathname}][user -> ${userString}]`);
 
   const requestHeaders = new Headers(request.headers);
+  const userString = JSON.stringify(user);
   requestHeaders.set("user", userString);
 
   return NextResponse.next({
@@ -44,5 +42,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/account/:path*", "/administration"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

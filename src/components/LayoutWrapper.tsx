@@ -5,6 +5,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { classNames } from "@/utils";
 import Image from "next/image";
+import Logo from "./Logo";
 
 const navigation = [{ name: "Home", href: "/", current: true }];
 const userNavigation = [
@@ -27,7 +28,7 @@ export default function LayoutWrapper({
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex">
-                  <div className="flex flex-shrink-0 items-center">Logo</div>
+                  <Logo />
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     {navigation.map((item) => (
                       <a

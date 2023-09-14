@@ -16,7 +16,11 @@ function LogoutPage() {
     doSignOut();
   }, []);
 
-  return <LoadingSpinner />;
+  return (
+    <div className="flex flex-col items-center pt-36">
+      <LoadingSpinner />
+    </div>
+  );
 }
 
 export default LogoutPage;
