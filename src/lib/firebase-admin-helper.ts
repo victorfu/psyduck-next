@@ -20,46 +20,24 @@ export const adminAuth = getAuth(admin);
 export const adminFirestore = getFirestore(admin);
 
 export async function getUser(uid: string) {
-  try {
-    return await adminAuth.getUser(uid);
-  } catch (error) {
-    console.error("Error getting user:", error);
-    throw error;
-  }
+  const user = await adminAuth.getUser(uid);
+  return { error: null, user };
 }
 
 export async function listUsers() {
-  try {
-    const { users } = await adminAuth.listUsers();
-    return users;
-  } catch (error) {
-    console.error("Error listing users:", error);
-    throw error;
-  }
+  const { users } = await adminAuth.listUsers();
+  return users;
 }
 
 export async function verifyIdTokenAndGetUser(token: string) {
-  try {
-    const decodedToken = await adminAuth.verifyIdToken(token, true);
-    const uid = decodedToken.uid;
-    return await adminAuth.getUser(uid);
-  } catch (error) {
-    console.error("Error verifying id token:", error);
-    throw error;
-  }
+  const decodedToken = await adminAuth.verifyIdToken(token, true);
+  const uid = decodedToken.uid;
+  return await adminAuth.getUser(uid);
 }
 
 export async function verifySessionCookieAndGetUser(sessionCookie: string) {
-  try {
-    const decodedToken = await adminAuth.verifySessionCookie(
-      sessionCookie,
-      true,
-    );
-    return await adminAuth.getUser(decodedToken.uid);
-  } catch (error) {
-    console.error("Error verifying session cookie:", error);
-    throw error;
-  }
+  const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
+  return await adminAuth.getUser(decodedToken.uid);
 }
 
 export default admin;

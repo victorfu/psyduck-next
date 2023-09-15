@@ -2,15 +2,16 @@ import "server-only";
 import { formatIsoDate } from "@/utils";
 import { getQuestions } from "@/lib/actions";
 import { getUserFromHeader } from "@/utils/session-utils";
+import DeleteQuestionButton from "@/components/DeleteQuestionButton";
 
 async function HistoryPage() {
   const user = getUserFromHeader();
-  const { data } = await getQuestions(user?.uid);
+  const { questions } = await getQuestions(user?.uid);
 
   return (
     <div className="container mx-auto">
       <div className="w-full flex flex-col">
-        {data?.map((doc) => {
+        {questions?.map((doc) => {
           const question = doc as Question;
           return (
             <div
@@ -30,6 +31,7 @@ async function HistoryPage() {
                   </span>
                 </div>
               </div>
+              <DeleteQuestionButton id={question.id} />
             </div>
           );
         })}

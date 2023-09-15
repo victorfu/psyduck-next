@@ -35,7 +35,7 @@ export async function getQuestions(uid?: string) {
       id: doc.id,
       ...doc.data(),
     }));
-    return { error: null, data };
+    return { error: null, questions: data };
   } catch (error) {
     return { error: "Error getting questions" };
   }

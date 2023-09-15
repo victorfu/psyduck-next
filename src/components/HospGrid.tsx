@@ -4,6 +4,7 @@ import { search } from "@/lib/actions";
 import { useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import AskButton from "./AskButton";
+import { PATHNAME_HOME } from "@/utils/constants";
 
 type Hosp = {
   hosP_NAME: string;
@@ -22,7 +23,7 @@ const HospGrid = ({ user }: { user: User | undefined }) => {
         <div className="min-w-0 flex-1">
           <form
             action={async (formData) => {
-              const { data, error } = await search(formData, "/");
+              const { data, error } = await search(formData, PATHNAME_HOME);
               if (error) {
                 alert(error);
                 return;
