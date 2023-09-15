@@ -62,19 +62,4 @@ export async function verifySessionCookieAndGetUser(sessionCookie: string) {
   }
 }
 
-export async function getItems() {
-  try {
-    const items = await adminFirestore.collection("items").get();
-    return items.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-  } catch (error) {
-    console.error("Error getting items:", error);
-    throw error;
-  }
-}
-
 export default admin;

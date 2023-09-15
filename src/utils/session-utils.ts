@@ -6,30 +6,32 @@ import { headers } from "next/headers";
  * If session cookie is valid, return user object. Otherwise, return 401 or 400.
  */
 export async function verifySessionAndGetUser(): Promise<{
-  error: string | null;
+  error: string | undefined;
   user: any;
 }> {
   try {
     const session = cookies().get("session")?.value || "";
     if (!session) {
-      return { error: "Empty session", user: null };
+      return { error: "Empty session", user: undefined };
     }
     const user = await verifySessionCookieAndGetUser(session);
     if (!user) {
-      return { error: "Invalid session", user: null };
+      return { error: "Invalid session", user: undefined };
     }
-    return { error: null, user };
+    return { error: undefined, user };
   } catch (error) {
-    return { error: "Invalid session", user: null };
+    return { error: "Invalid session", user: undefined };
   }
 }
 
-export const getUserFromHeader = (): User | null => {
+export const getUserFromHeader = (): User | undefined => {
   const headersList = headers();
   const userString = headersList.get("user");
   if (!userString) {
-    return null;
+    return undefined;
   }
-  const user: User | null = userString ? JSON.parse(userString) : null;
+  const user: User | undefined = userString
+    ? JSON.parse(userString)
+    : undefined;
   return user;
 };

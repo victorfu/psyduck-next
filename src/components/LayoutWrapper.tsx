@@ -11,23 +11,20 @@ import {
   PATHNAME_ACCOUNT,
   PATHNAME_USERS,
   PATHNAME_HOME,
-  PATHNAME_ITEMS,
+  PATHNAME_HISTORY,
 } from "@/utils/constants";
 import DefaultAvatar from "./DefaultAvatar";
+import Link from "next/link";
 
-const getNavigation = (
-  pathname: string,
-  user: User | null,
-  isAdmin: boolean,
-) => {
+const getNavigation = (pathname: string, user?: User, isAdmin?: boolean) => {
   const nav = [
     { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
   ];
   if (user) {
     nav.push({
-      name: "Account",
-      href: PATHNAME_ACCOUNT,
-      current: pathname === PATHNAME_ACCOUNT,
+      name: "History",
+      href: PATHNAME_HISTORY,
+      current: pathname === PATHNAME_HISTORY,
     });
   }
   if (isAdmin) {
@@ -36,18 +33,19 @@ const getNavigation = (
       href: PATHNAME_USERS,
       current: pathname === PATHNAME_USERS,
     });
-    nav.push({
-      name: "Items",
-      href: PATHNAME_ITEMS,
-      current: pathname === PATHNAME_ITEMS,
-    });
   }
   return nav;
 };
 
-const getUserNavigation = (user: User | null) => {
+const getUserNavigation = (user?: User) => {
   return user
-    ? [{ name: "Logout", href: "/logout" }]
+    ? [
+        {
+          name: "Account",
+          href: PATHNAME_ACCOUNT,
+        },
+        { name: "Logout", href: "/logout" },
+      ]
     : [{ name: "Login", href: "/login" }];
 };
 
@@ -56,11 +54,11 @@ export default function LayoutWrapper({
   user,
 }: {
   children: React.ReactNode;
-  user: User | null;
+  user?: User;
 }) {
   const pathname = usePathname();
   const isAdmin = user?.customClaims?.isAdmin;
-  const navigation = getNavigation(pathname, user, !!isAdmin);
+  const navigation = getNavigation(pathname, user, isAdmin);
   const userNavigation = getUserNavigation(user);
 
   return (
@@ -71,7 +69,9 @@ export default function LayoutWrapper({
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex">
-                  <Logo />
+                  <Link href={PATHNAME_HOME} className="flex items-center">
+                    <Logo />
+                  </Link>
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     {navigation.map((item) => (
                       <a

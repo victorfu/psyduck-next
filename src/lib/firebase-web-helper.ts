@@ -35,7 +35,7 @@ googleAuthProvider.setCustomParameters({
 const lineAuthProvider = new OAuthProvider("oidc.line");
 lineAuthProvider.addScope("openid");
 
-export const signInByGoogle = async (): Promise<User | null> => {
+export const signInByGoogle = async (): Promise<User | undefined> => {
   try {
     const result = await signInWithPopup(auth, googleAuthProvider);
     const idToken = await result.user.getIdToken();
@@ -43,11 +43,11 @@ export const signInByGoogle = async (): Promise<User | null> => {
     return user;
   } catch (error) {
     console.error(error);
-    return null;
+    return undefined;
   }
 };
 
-export const signInByLine = async (): Promise<User | null> => {
+export const signInByLine = async (): Promise<User | undefined> => {
   try {
     const result = await signInWithPopup(auth, lineAuthProvider);
     const idToken = await result.user.getIdToken();
@@ -55,7 +55,7 @@ export const signInByLine = async (): Promise<User | null> => {
     return user;
   } catch (error) {
     console.error(error);
-    return null;
+    return undefined;
   }
 };
 

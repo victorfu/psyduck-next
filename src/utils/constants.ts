@@ -5,5 +5,5 @@ export const METADATA_DESCRIPTION =
 export const PATHNAME_HOME = "/";
 export const PATHNAME_LOGIN = "/login";
 export const PATHNAME_ACCOUNT = "/account";
+export const PATHNAME_HISTORY = "/history";
 export const PATHNAME_USERS = "/administration/users";
-export const PATHNAME_ITEMS = "/administration/items";

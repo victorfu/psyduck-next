@@ -13,8 +13,8 @@ type Hosp = {
   hosP_ID: string;
 };
 
-const HospGrid = ({ user }: { user: User | null }) => {
-  const [hosps, setHosps] = useState<Hosp[] | null>(null);
+const HospGrid = ({ user }: { user: User | undefined }) => {
+  const [hosps, setHosps] = useState<Hosp[] | undefined>(undefined);
 
   return (
     <div>
@@ -23,7 +23,10 @@ const HospGrid = ({ user }: { user: User | null }) => {
           <form
             action={async (formData) => {
               const { data, error } = await search(formData, "/");
-              if (error) alert(error);
+              if (error) {
+                alert(error);
+                return;
+              }
               setHosps(data || []);
             }}
             className="relative"

@@ -3,8 +3,8 @@ import { Analytics, getAnalytics, logEvent } from "firebase/analytics";
 import { Logger } from "./logger";
 
 class AnalyticsHelper {
-  private static instance: AnalyticsHelper | null = null;
-  private analyticsInstance: Analytics | null = null;
+  private static instance: AnalyticsHelper | undefined = undefined;
+  private analyticsInstance: Analytics | undefined = undefined;
 
   private constructor() {
     if (typeof window !== "undefined") {

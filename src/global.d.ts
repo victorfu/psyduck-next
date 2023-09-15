@@ -1,9 +1,9 @@
 type ProviderData = {
-  photoURL: string | null;
+  photoURL?: string;
   providerId: string;
   uid: string;
-  displayName: string | null;
-  email: string | null;
+  displayName?: string;
+  email?: string;
 };
 
 type Metadata = {
@@ -29,11 +29,9 @@ type User = {
   providerData: ProviderData[];
 };
 
-type Item = {
+type Question = {
   id: string;
-  title: string;
-  description: string;
-  enabled: boolean;
+  content: string;
   createdAt: string;
   createdBy: string;
   updatedAt: string;

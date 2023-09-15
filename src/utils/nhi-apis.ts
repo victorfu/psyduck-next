@@ -1,7 +1,7 @@
 const sql100 = "https://info.nhi.gov.tw/api/inae1000/inae1000s01/SQL100";
 
 export async function searchHosp(
-  funcType: string | null,
+  funcType: string,
   name: string,
   type: string,
   area_no: string,

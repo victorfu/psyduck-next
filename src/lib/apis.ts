@@ -1,6 +1,6 @@
 export async function getLogin(apiUrl: string, session: string) {
   if (!session) {
-    return { error: "Empty session", user: null };
+    return { error: "Empty session", user: undefined };
   }
   try {
     const response = await fetch(`${apiUrl}/api/login`, {
@@ -10,7 +10,7 @@ export async function getLogin(apiUrl: string, session: string) {
     });
     return await response.json();
   } catch (error) {
-    return { error: "Invalid session", user: null };
+    return { error: "Invalid session", user: undefined };
   }
 }
 
