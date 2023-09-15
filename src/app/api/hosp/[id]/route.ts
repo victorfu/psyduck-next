@@ -1,5 +1,6 @@
-import { sql300 } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
+
+const sql300 = "https://info.nhi.gov.tw/api/inae1000/inae1000s00/SQL300";
 
 export async function GET(
   request: NextRequest,

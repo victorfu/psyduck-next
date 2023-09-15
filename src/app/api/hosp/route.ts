@@ -1,5 +1,6 @@
-import { sql100 } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
+
+const sql100 = "https://info.nhi.gov.tw/api/inae1000/inae1000s01/SQL100";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -48,4 +49,20 @@ export async function GET(request: NextRequest) {
   const response = await fetch(sql100, options);
   const result = await response.json();
   return NextResponse.json(result, { status: 200 });
+}
+
+export async function POST(request: Request) {
+  const res = await request.json();
+  const url = "https://info.nhi.gov.tw/api/inae1000/INAEmapS01/pageload";
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(res),
+  };
+
+  const response = await fetch(url, options);
+  const result = await response.json();
+  return NextResponse.json(result);
 }

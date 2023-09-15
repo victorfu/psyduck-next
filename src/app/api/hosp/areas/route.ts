@@ -1,5 +1,6 @@
-import { sql001 } from "@/utils/constants";
 import { NextRequest, NextResponse } from "next/server";
+
+const sql001 = "https://info.nhi.gov.tw/api/inae1000/inae1000s01/SQL001";
 
 export async function GET(request: NextRequest) {
   const response = await fetch(sql001);

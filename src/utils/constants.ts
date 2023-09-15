@@ -7,8 +7,3 @@ export const PATHNAME_LOGIN = "/login";
 export const PATHNAME_ACCOUNT = "/account";
 export const PATHNAME_USERS = "/administration/users";
 export const PATHNAME_ITEMS = "/administration/items";
-
-export const sql001 = "https://info.nhi.gov.tw/api/inae1000/inae1000s01/SQL001";
-export const sql100 = "https://info.nhi.gov.tw/api/inae1000/inae1000s01/SQL100";
-export const sql002 = "https://info.nhi.gov.tw/api/inae1000/inae1000s01/SQL002";
-export const sql300 = "https://info.nhi.gov.tw/api/inae1000/inae1000s00/SQL300";
