@@ -13,7 +13,7 @@ type Hosp = {
 };
 
 const HospGrid = ({ user }: { user: User | null }) => {
-  const [hosps, setHosps] = useState<Hosp[]>([]);
+  const [hosps, setHosps] = useState<Hosp[] | null>(null);
   return (
     <div>
       <div className="flex items-start space-x-4">
@@ -64,7 +64,12 @@ const HospGrid = ({ user }: { user: User | null }) => {
       </div>
 
       <ul role="list" className="divide-y divide-gray-100">
-        {hosps.map((hosp) => (
+        {hosps?.length === 0 && (
+          <div className="relative flex justify-between gap-x-6 py-5">
+            No results found
+          </div>
+        )}
+        {hosps?.map((hosp) => (
           <li
             key={hosp.hosP_ID}
             className="relative flex justify-between gap-x-6 py-5"
