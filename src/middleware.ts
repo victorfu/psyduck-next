@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { Logger } from "@/lib/logger";
 import { getLogin } from "./lib/apis";
 import { PATHNAME_HOME, PATHNAME_LOGIN } from "./utils/constants";
 
 const redirectTo = (url: string, request: NextRequest) => {
-  Logger.log(`Redirecting to ${url}`);
   return NextResponse.redirect(new URL(url, request.url));
 };
 

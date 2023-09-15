@@ -1,4 +1,3 @@
-import { Logger } from "@/lib/logger";
 import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
@@ -10,10 +9,8 @@ const firebaseAdminConfig = {
 
 function initializeFirebaseAdmin() {
   if (getApps().length === 0) {
-    Logger.log(`Firestore initialized`);
     return initializeApp(firebaseAdminConfig);
   } else {
-    Logger.log(`Firestore reused`);
     return getApp();
   }
 }
