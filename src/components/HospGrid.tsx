@@ -3,6 +3,7 @@
 import { search } from "@/lib/actions";
 import { useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import AskButton from "./AskButton";
 
 type Hosp = {
   hosP_NAME: string;
@@ -14,6 +15,7 @@ type Hosp = {
 
 const HospGrid = ({ user }: { user: User | null }) => {
   const [hosps, setHosps] = useState<Hosp[] | null>(null);
+
   return (
     <div>
       <div className="flex items-start space-x-4">
@@ -51,12 +53,7 @@ const HospGrid = ({ user }: { user: User | null }) => {
             <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
               <div className="flex items-center space-x-5"></div>
               <div className="flex-shrink-0">
-                <button
-                  type="submit"
-                  className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Ask
-                </button>
+                <AskButton />
               </div>
             </div>
           </form>
