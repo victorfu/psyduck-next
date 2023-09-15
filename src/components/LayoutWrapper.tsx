@@ -58,7 +58,6 @@ export default function LayoutWrapper({
   children: React.ReactNode;
   user: User | null;
 }) {
-  console.log(user);
   const pathname = usePathname();
   const isAdmin = user?.customClaims?.isAdmin;
   const navigation = getNavigation(pathname, user, !!isAdmin);

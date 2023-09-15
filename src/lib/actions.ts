@@ -57,7 +57,8 @@ export async function search(formData: FormData, path?: string) {
   const question = formData.get("question");
   if (!question) return { error: "Question is required" };
 
-  const result = await searchHosp("", question as string, "", "", "", "", 0, 0);
+  const trimQuestion = (question as string).trim();
+  const result = await searchHosp("", trimQuestion, "", "", "", "", 0, 0);
   if (path) revalidatePath(path);
   return result;
 }
