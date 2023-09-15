@@ -1,6 +1,6 @@
 "use client";
 
-import { addItem } from "@/app/(main)/administration/items/actions";
+import { addItem } from "@/lib/actions";
 import { useRef } from "react";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 

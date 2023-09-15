@@ -13,18 +13,23 @@ import {
   PATHNAME_HOME,
   PATHNAME_ITEMS,
 } from "@/utils/constants";
+import DefaultAvatar from "./DefaultAvatar";
 
-const userNavigation = [{ name: "Logout", href: "/logout" }];
-
-const getNavigation = (pathname: string, isAdmin: boolean) => {
+const getNavigation = (
+  pathname: string,
+  user: User | null,
+  isAdmin: boolean,
+) => {
   const nav = [
     { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
-    {
+  ];
+  if (user) {
+    nav.push({
       name: "Account",
       href: PATHNAME_ACCOUNT,
       current: pathname === PATHNAME_ACCOUNT,
-    },
-  ];
+    });
+  }
   if (isAdmin) {
     nav.push({
       name: "Users",
@@ -40,6 +45,12 @@ const getNavigation = (pathname: string, isAdmin: boolean) => {
   return nav;
 };
 
+const getUserNavigation = (user: User | null) => {
+  return user
+    ? [{ name: "Logout", href: "/logout" }]
+    : [{ name: "Login", href: "/login" }];
+};
+
 export default function LayoutWrapper({
   children,
   user,
@@ -47,9 +58,11 @@ export default function LayoutWrapper({
   children: React.ReactNode;
   user: User | null;
 }) {
+  console.log(user);
   const pathname = usePathname();
   const isAdmin = user?.customClaims?.isAdmin;
-  const navigation = getNavigation(pathname, !!isAdmin);
+  const navigation = getNavigation(pathname, user, !!isAdmin);
+  const userNavigation = getUserNavigation(user);
 
   return (
     <div className="min-h-full">
@@ -94,7 +107,7 @@ export default function LayoutWrapper({
                       <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        {user && (
+                        {user ? (
                           <Image
                             className="rounded-full"
                             src={user.photoURL}
@@ -102,6 +115,10 @@ export default function LayoutWrapper({
                             width={32}
                             height={32}
                           />
+                        ) : (
+                          <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">
+                            <DefaultAvatar />
+                          </span>
                         )}
                       </Menu.Button>
                     </div>
@@ -171,7 +188,7 @@ export default function LayoutWrapper({
               <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="flex items-center px-4">
                   <div className="flex-shrink-0">
-                    {user && (
+                    {user ? (
                       <Image
                         className="rounded-full"
                         src={user.photoURL}
@@ -179,6 +196,10 @@ export default function LayoutWrapper({
                         width={40}
                         height={40}
                       />
+                    ) : (
+                      <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                        <DefaultAvatar />
+                      </span>
                     )}
                   </div>
                   <div className="ml-3">

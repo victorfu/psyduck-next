@@ -1,6 +1,7 @@
 "use server";
 
 import { adminFirestore } from "@/lib/firebase-admin-helper";
+import { searchHosp } from "@/utils/nhi-apis";
 import { getUserFromHeader } from "@/utils/session-utils";
 import { revalidatePath } from "next/cache";
 
@@ -50,4 +51,13 @@ export async function deleteItem(id: string, path?: string) {
   } catch (error) {
     return { error: "Error deleting item" };
   }
+}
+
+export async function search(formData: FormData, path?: string) {
+  const question = formData.get("question");
+  if (!question) return { error: "Question is required" };
+
+  const result = await searchHosp("", question as string, "", "", "", "", 0, 0);
+  if (path) revalidatePath(path);
+  return result;
 }

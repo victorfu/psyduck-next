@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteItem } from "@/app/(main)/administration/items/actions";
+import { deleteItem } from "@/lib/actions";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 const DeleteItemButton = ({ item }: { item: Item }) => {

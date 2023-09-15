@@ -26,11 +26,25 @@ export async function middleware(request: NextRequest) {
       : NextResponse.next({ request });
   }
 
+  const requestHeaders = new Headers(request.headers);
+
+  if (request.nextUrl.pathname === PATHNAME_HOME) {
+    if (!isLoggedIn) return NextResponse.next({ request });
+
+    const userString = JSON.stringify(useObj);
+    requestHeaders.set("user", userString);
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+  }
+
   if (!isLoggedIn) {
     return redirectTo(PATHNAME_LOGIN, request);
   }
 
-  const requestHeaders = new Headers(request.headers);
   const userString = JSON.stringify(useObj);
   requestHeaders.set("user", userString);
 
