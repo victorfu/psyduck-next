@@ -1,18 +1,18 @@
 "use client";
 
 import { formatIsoDate } from "@/lib/utils";
-import { useState } from "react";
+import { useTransition } from "react";
 import { Button } from "./ui/button";
 import { deleteQuestion } from "@/lib/actions";
 import { PATHNAME_HISTORY } from "@/lib/constants";
 import LoadingSpinner from "./ui/loading-spinner";
 
 const QuestionItem = ({ questions }: { questions: Question[] }) => {
-  const [deleting, setDeleting] = useState(false);
+  let [isPending, startTransition] = useTransition();
 
   return (
     <div className="w-full flex flex-col">
-      {deleting && <LoadingSpinner />}
+      {isPending && <LoadingSpinner fullpage={true} />}
       {questions?.map((doc) => {
         const question = doc as Question;
         return (
@@ -36,10 +36,10 @@ const QuestionItem = ({ questions }: { questions: Question[] }) => {
             <Button
               type="submit"
               className="w-5 h-5 p-0 inline-flex items-center rounded-full bg-red-600 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-              onClick={async () => {
-                setDeleting(true);
-                await deleteQuestion(question.id, PATHNAME_HISTORY);
-                setDeleting(false);
+              onClick={() => {
+                startTransition(async () => {
+                  await deleteQuestion(question.id, PATHNAME_HISTORY);
+                });
               }}
             >
               X

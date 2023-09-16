@@ -1,24 +1,10 @@
 import "server-only";
-import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
+import { listUsers } from "@/lib/firebase-admin-helper";
 import AdminInput from "@/components/ui/admin-input";
-import { revalidatePath } from "next/cache";
 import { convertProviderIdToName } from "@/lib/utils";
+import { toggleAdminPermission } from "@/lib/actions";
 
 async function UsersPage() {
-  const toggle = async (uid: string, isAdmin: boolean) => {
-    "use server";
-    try {
-      if (uid === process.env.OWNER_UID) {
-        throw new Error("Cannot change owner status");
-      }
-
-      await adminAuth.setCustomUserClaims(uid, { isAdmin: !isAdmin });
-      revalidatePath("/administration/users");
-    } catch (error) {
-      console.error("Failed to toggle admin status:", error);
-    }
-  };
-
   const users = await listUsers();
   return (
     <div className="w-full flex flex-col">
@@ -35,7 +21,11 @@ async function UsersPage() {
             <div className="mb-1">
               <strong className="mr-2">Display Name: </strong>
               <span className="mr-2">{user.displayName}</span>
-              <AdminInput uid={user.uid} isAdmin={isAdmin} toggle={toggle} />
+              <AdminInput
+                uid={user.uid}
+                isAdmin={isAdmin}
+                toggle={toggleAdminPermission}
+              />
               {isAdmin && <span className="text-red-500 ml-1">admin</span>}
             </div>
             <div className="mb-1">

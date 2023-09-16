@@ -1,6 +1,6 @@
 "use server";
 
-import { adminFirestore } from "@/lib/firebase-admin-helper";
+import { adminAuth, adminFirestore } from "@/lib/firebase-admin-helper";
 import { searchHosp } from "@/lib/nhi-apis";
 import { getUserFromHeader } from "@/lib/session-utils";
 import { revalidatePath } from "next/cache";
@@ -28,9 +28,12 @@ export async function addQuestion(content: string, path?: string) {
 
 export async function getQuestions(uid?: string) {
   try {
-    const ref = adminFirestore.collection("questions");
-    if (uid) ref.where("createdBy", "==", uid);
-    const result = await ref.orderBy("createdAt", "desc").get();
+    if (!uid) return { error: "User is empty" };
+
+    let collectionRef = adminFirestore
+      .collection("questions")
+      .where("createdBy", "==", uid);
+    const result = await collectionRef.get();
     const data = result.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -60,4 +63,17 @@ export async function search(formData: FormData, path?: string) {
   const result = await searchHosp("", trimQuestion, "", "", "", "", 0, 0);
   if (path) revalidatePath(path);
   return result;
+}
+
+export async function toggleAdminPermission(uid: string, isAdmin: boolean) {
+  try {
+    if (uid === process.env.OWNER_UID) {
+      throw new Error("Cannot change owner status");
+    }
+
+    await adminAuth.setCustomUserClaims(uid, { isAdmin: !isAdmin });
+    revalidatePath("/administration/users");
+  } catch (error) {
+    console.error("Failed to toggle admin status:", error);
+  }
 }
