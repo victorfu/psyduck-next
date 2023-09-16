@@ -20,8 +20,7 @@ export const adminAuth = getAuth(admin);
 export const adminFirestore = getFirestore(admin);
 
 export async function getUser(uid: string) {
-  const user = await adminAuth.getUser(uid);
-  return { error: null, user };
+  return await adminAuth.getUser(uid);
 }
 
 export async function listUsers() {
