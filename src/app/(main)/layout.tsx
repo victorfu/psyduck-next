@@ -4,7 +4,8 @@ import { Inter } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/utils/constants";
 import { getUserFromHeader } from "@/utils/session-utils";
-import { classNames } from "@/utils";
+import { cn } from "@/utils";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({
 }) {
   const user = getUserFromHeader();
   return (
-    <html lang="en" className="h-full">
-      <body className={classNames("h-full", inter.className)}>
-        <LayoutWrapper user={user}>{children}</LayoutWrapper>
+    <html lang="en" className="h-full" suppressHydrationWarning>
+      <body className={cn("h-full", inter.className)}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <LayoutWrapper user={user}>{children}</LayoutWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

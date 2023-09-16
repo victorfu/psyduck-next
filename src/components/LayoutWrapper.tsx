@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { classNames } from "@/utils";
+import { cn } from "@/utils";
 import Image from "next/image";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
@@ -77,7 +77,7 @@ export default function LayoutWrapper({
                       <a
                         key={item.name}
                         href={item.href}
-                        className={classNames(
+                        className={cn(
                           item.current
                             ? "border-indigo-500 text-gray-900"
                             : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
@@ -136,7 +136,7 @@ export default function LayoutWrapper({
                             {({ active }) => (
                               <a
                                 href={item.href}
-                                className={classNames(
+                                className={cn(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700",
                                 )}
@@ -172,7 +172,7 @@ export default function LayoutWrapper({
                     key={item.name}
                     as="a"
                     href={item.href}
-                    className={classNames(
+                    className={cn(
                       item.current
                         ? "border-indigo-500 bg-indigo-50 text-indigo-700"
                         : "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800",

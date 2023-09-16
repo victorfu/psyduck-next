@@ -1,3 +1,6 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 export const convertProviderIdToName = (providerId: string): string => {
   if (providerId === "google.com") {
     return "Google";
@@ -8,10 +11,6 @@ export const convertProviderIdToName = (providerId: string): string => {
   return providerId;
 };
 
-export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export function formatIsoDate(isoDate: string) {
   const date = new Date(isoDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -21,4 +20,8 @@ export function formatIsoDate(isoDate: string) {
     timeZone: "Asia/Taipei",
   };
   return date.toLocaleDateString("en-US", options);
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
