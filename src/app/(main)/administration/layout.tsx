@@ -1,4 +1,4 @@
-import { getUserFromHeader } from "@/utils/session-utils";
+import { getUserFromHeader } from "@/lib/session-utils";
 
 const PermissionDenied = () => <div>Permission denied</div>;
 

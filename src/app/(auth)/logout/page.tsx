@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/loading-spinner";
 import AnalyticsHelper from "@/lib/analytics-helper";
 import { signOut } from "@/lib/firebase-web-helper";
 import { useEffect } from "react";

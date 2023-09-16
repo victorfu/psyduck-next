@@ -1,8 +1,8 @@
 import "server-only";
-import { formatIsoDate } from "@/utils";
+import { formatIsoDate } from "@/lib/utils";
 import { getQuestions } from "@/lib/actions";
-import { getUserFromHeader } from "@/utils/session-utils";
-import DeleteQuestionButton from "@/components/DeleteQuestionButton";
+import { getUserFromHeader } from "@/lib/session-utils";
+import DeleteQuestionButton from "@/components/ui/delete-button";
 
 async function HistoryPage() {
   const user = getUserFromHeader();

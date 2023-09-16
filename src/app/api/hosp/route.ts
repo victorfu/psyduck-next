@@ -1,4 +1,4 @@
-import { searchHosp } from "@/utils/nhi-apis";
+import { searchHosp } from "@/lib/nhi-apis";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

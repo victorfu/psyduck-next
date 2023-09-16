@@ -1,8 +1,8 @@
 import "server-only";
 import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
-import AdminInput from "@/components/AdminInput";
+import AdminInput from "@/components/admin-input";
 import { revalidatePath } from "next/cache";
-import { convertProviderIdToName } from "@/utils";
+import { convertProviderIdToName } from "@/lib/utils";
 
 async function UsersPage() {
   const toggle = async (uid: string, isAdmin: boolean) => {

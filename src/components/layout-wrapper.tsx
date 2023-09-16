@@ -3,17 +3,17 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { cn } from "@/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
-import Logo from "./Logo";
+import Logo from "./logo";
 import { usePathname } from "next/navigation";
 import {
   PATHNAME_ACCOUNT,
   PATHNAME_USERS,
   PATHNAME_HOME,
   PATHNAME_HISTORY,
-} from "@/utils/constants";
-import DefaultAvatar from "./DefaultAvatar";
+} from "@/lib/constants";
+import DefaultAvatar from "./default-avatar";
 import Link from "next/link";
 
 const getNavigation = (pathname: string, user?: User, isAdmin?: boolean) => {

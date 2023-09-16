@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { verifySessionAndGetUser } from "@/utils/session-utils";
+import { verifySessionAndGetUser } from "@/lib/session-utils";
 import { adminAuth } from "@/lib/firebase-admin-helper";
 
 export async function GET() {

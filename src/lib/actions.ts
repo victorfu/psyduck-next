@@ -1,8 +1,8 @@
 "use server";
 
 import { adminFirestore } from "@/lib/firebase-admin-helper";
-import { searchHosp } from "@/utils/nhi-apis";
-import { getUserFromHeader } from "@/utils/session-utils";
+import { searchHosp } from "@/lib/nhi-apis";
+import { getUserFromHeader } from "@/lib/session-utils";
 import { revalidatePath } from "next/cache";
 
 export async function addQuestion(content: string, path?: string) {

@@ -3,8 +3,8 @@
 import { search } from "@/lib/actions";
 import { useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import AskButton from "./AskButton";
-import { PATHNAME_HOME } from "@/utils/constants";
+import AskButton from "./ui/ask-button";
+import { PATHNAME_HOME } from "@/lib/constants";
 
 type Hosp = {
   hosP_NAME: string;

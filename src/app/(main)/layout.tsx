@@ -1,10 +1,10 @@
 import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import LayoutWrapper from "@/components/LayoutWrapper";
-import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/utils/constants";
-import { getUserFromHeader } from "@/utils/session-utils";
-import { cn } from "@/utils";
+import LayoutWrapper from "@/components/layout-wrapper";
+import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/lib/constants";
+import { getUserFromHeader } from "@/lib/session-utils";
+import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
