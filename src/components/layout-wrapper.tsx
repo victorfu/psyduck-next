@@ -14,7 +14,7 @@ import {
 } from "@/lib/constants";
 import DefaultAvatar from "./ui/default-avatar";
 import Link from "next/link";
-import Logo from "@/components/logo";
+import Logo from "@/components/ui/logo";
 
 const getNavigation = (pathname: string, user?: User, isAdmin?: boolean) => {
   const nav = [

@@ -1,6 +1,6 @@
 import "server-only";
 import LoginButton from "@/components/ui/login-button";
-import Logo from "@/components/logo";
+import Logo from "@/components/ui/logo";
 
 function LoginPage() {
   return (
