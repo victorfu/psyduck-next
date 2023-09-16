@@ -1,5 +1,7 @@
 "use client";
 
+import { Checkbox } from "@/components/ui/checkbox";
+
 const AdminInput = ({
   uid,
   isAdmin,
@@ -10,11 +12,7 @@ const AdminInput = ({
   toggle: (uid: string, isAdmin: boolean) => Promise<void>;
 }) => {
   return (
-    <input
-      type="checkbox"
-      checked={isAdmin}
-      onChange={() => toggle(uid, isAdmin)}
-    />
+    <Checkbox checked={isAdmin} onCheckedChange={() => toggle(uid, isAdmin)} />
   );
 };
 

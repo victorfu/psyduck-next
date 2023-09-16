@@ -30,7 +30,7 @@ export async function getQuestions(uid?: string) {
   try {
     const ref = adminFirestore.collection("questions");
     if (uid) ref.where("createdBy", "==", uid);
-    const result = await ref.get();
+    const result = await ref.orderBy("createdAt", "desc").get();
     const data = result.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),

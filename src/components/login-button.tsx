@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import AnalyticsHelper from "@/lib/analytics-helper";
-import LoadingSpinner from "./loading-spinner";
+import LoadingSpinner from "./ui/loading-spinner";
 import { signInByGoogle } from "@/lib/firebase-web-helper";
 
 const LoginButton = () => {
