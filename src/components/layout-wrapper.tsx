@@ -5,7 +5,6 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import Logo from "./logo";
 import { usePathname } from "next/navigation";
 import {
   PATHNAME_ACCOUNT,
@@ -13,8 +12,9 @@ import {
   PATHNAME_HOME,
   PATHNAME_HISTORY,
 } from "@/lib/constants";
-import DefaultAvatar from "./default-avatar";
+import DefaultAvatar from "./ui/default-avatar";
 import Link from "next/link";
+import Logo from "@/components/logo";
 
 const getNavigation = (pathname: string, user?: User, isAdmin?: boolean) => {
   const nav = [

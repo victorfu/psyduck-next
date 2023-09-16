@@ -2,17 +2,17 @@
 
 import { formatIsoDate } from "@/lib/utils";
 import { useState } from "react";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 import { deleteQuestion } from "@/lib/actions";
 import { PATHNAME_HISTORY } from "@/lib/constants";
-import { Progress } from "@/components/ui/progress";
+import LoadingSpinner from "./ui/loading-spinner";
 
 const QuestionItem = ({ questions }: { questions: Question[] }) => {
   const [deleting, setDeleting] = useState(false);
 
   return (
     <div className="w-full flex flex-col">
-      {deleting && <Progress />}
+      {deleting && <LoadingSpinner />}
       {questions?.map((doc) => {
         const question = doc as Question;
         return (

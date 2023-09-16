@@ -1,6 +1,6 @@
 import "server-only";
 import { adminAuth, listUsers } from "@/lib/firebase-admin-helper";
-import AdminInput from "@/components/admin-input";
+import AdminInput from "@/components/ui/admin-input";
 import { revalidatePath } from "next/cache";
 import { convertProviderIdToName } from "@/lib/utils";
 

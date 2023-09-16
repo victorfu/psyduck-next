@@ -1,7 +1,7 @@
 import "server-only";
 import { getQuestions } from "@/lib/actions";
 import { getUserFromHeader } from "@/lib/session-utils";
-import QuestionItem from "@/components/ui/question-item";
+import QuestionItem from "@/components/question-item";
 
 export const preload = (uid: string) => {
   void getQuestions(uid);
