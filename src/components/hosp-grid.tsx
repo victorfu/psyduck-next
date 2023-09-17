@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import AskButton from "./ui/ask-button";
 import { PATHNAME_HOME } from "@/lib/constants";
+import AnalyticsHelper from "@/lib/analytics-helper";
 
 type Hosp = {
   hosP_NAME: string;
@@ -24,6 +25,7 @@ const HospGrid = ({ user }: { user: User | undefined }) => {
           <form
             action={async (formData) => {
               const { data, error } = await search(formData, PATHNAME_HOME);
+              AnalyticsHelper.getInstance().logEvent("ask", "click");
               if (error) {
                 alert(error);
                 return;

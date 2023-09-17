@@ -7,7 +7,7 @@ import { deleteQuestion } from "@/lib/actions";
 import { PATHNAME_HISTORY } from "@/lib/constants";
 import LoadingSpinner from "./ui/loading-spinner";
 
-const QuestionItem = ({ questions }: { questions: Question[] }) => {
+const QuestionList = ({ questions }: { questions: Question[] }) => {
   let [isPending, startTransition] = useTransition();
 
   return (
@@ -51,4 +51,4 @@ const QuestionItem = ({ questions }: { questions: Question[] }) => {
   );
 };
 
-export default QuestionItem;
+export default QuestionList;
