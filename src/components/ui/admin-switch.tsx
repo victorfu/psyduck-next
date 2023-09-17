@@ -1,10 +1,10 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import { useTransition } from "react";
 import LoadingSpinner from "./loading-spinner";
+import { Switch } from "@/components/ui/switch";
 
-const AdminInput = ({
+const AdminSwitch = ({
   uid,
   isAdmin,
   toggle,
@@ -18,7 +18,7 @@ const AdminInput = ({
   return (
     <>
       {isPending && <LoadingSpinner fullpage={true} />}
-      <Checkbox
+      <Switch
         checked={isAdmin}
         onCheckedChange={() => {
           startTransition(async () => {
@@ -30,4 +30,4 @@ const AdminInput = ({
   );
 };
 
-export default AdminInput;
+export default AdminSwitch;

@@ -1,6 +1,6 @@
 import "server-only";
 import { listUsers } from "@/lib/firebase-admin-helper";
-import AdminInput from "@/components/ui/admin-input";
+import AdminSwitch from "@/components/ui/admin-switch";
 import { convertProviderIdToName } from "@/lib/utils";
 import { toggleAdminPermission } from "@/lib/actions";
 
@@ -19,18 +19,20 @@ async function UsersPage() {
             key={user.uid}
           >
             <div className="mb-1">
-              <strong className="mr-2">Display Name: </strong>
+              <strong className="mr-2">Name: </strong>
               <span className="mr-2">{user.displayName}</span>
-              <AdminInput
+            </div>
+            <div className="mb-1 flex">
+              <strong className="mr-2">Admin: </strong>
+              <AdminSwitch
                 uid={user.uid}
                 isAdmin={isAdmin}
                 toggle={toggleAdminPermission}
               />
-              {isAdmin && <span className="text-red-500 ml-1">admin</span>}
             </div>
             <div className="mb-1">
               <strong className="mr-2">Provider: </strong>
-              {convertProviderIdToName(providerId) ?? "N/A"}
+              {convertProviderIdToName(providerId)}
             </div>
             <div className="mb-1">
               <strong className="mr-2">Email: </strong>
