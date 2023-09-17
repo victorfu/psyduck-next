@@ -2,7 +2,6 @@ import "server-only";
 import { listUsers } from "@/lib/firebase-admin-helper";
 import AdminSwitch from "@/components/ui/admin-switch";
 import { convertProviderIdToName } from "@/lib/utils";
-import { toggleAdminPermission } from "@/lib/actions";
 
 async function UsersPage() {
   const users = await listUsers();
@@ -24,11 +23,7 @@ async function UsersPage() {
             </div>
             <div className="mb-1 flex">
               <strong className="mr-2">Admin: </strong>
-              <AdminSwitch
-                uid={user.uid}
-                isAdmin={isAdmin}
-                toggle={toggleAdminPermission}
-              />
+              <AdminSwitch uid={user.uid} isAdmin={isAdmin} />
             </div>
             <div className="mb-1">
               <strong className="mr-2">Provider: </strong>

@@ -3,16 +3,9 @@
 import { useTransition } from "react";
 import LoadingSpinner from "./loading-spinner";
 import { Switch } from "@/components/ui/switch";
+import { toggleAdminPermission } from "@/lib/actions";
 
-const AdminSwitch = ({
-  uid,
-  isAdmin,
-  toggle,
-}: {
-  uid: string;
-  isAdmin: boolean;
-  toggle: (uid: string, isAdmin: boolean) => Promise<void>;
-}) => {
+const AdminSwitch = ({ uid, isAdmin }: { uid: string; isAdmin: boolean }) => {
   let [isPending, startTransition] = useTransition();
 
   return (
@@ -22,7 +15,7 @@ const AdminSwitch = ({
         checked={isAdmin}
         onCheckedChange={() => {
           startTransition(async () => {
-            await toggle(uid, isAdmin);
+            await toggleAdminPermission(uid, isAdmin);
           });
         }}
       />
