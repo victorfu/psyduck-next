@@ -1,7 +1,7 @@
 import "server-only";
 import { listUsers } from "@/lib/firebase-admin-helper";
 import AdminSwitch from "@/components/ui/admin-switch";
-import { convertProviderIdToName } from "@/lib/utils";
+import { providerIdToName } from "@/lib/utils";
 
 async function UsersPage() {
   const users = await listUsers();
@@ -27,7 +27,7 @@ async function UsersPage() {
             </div>
             <div className="mb-1">
               <strong className="mr-2">Provider: </strong>
-              {convertProviderIdToName(providerId)}
+              {providerIdToName(providerId)}
             </div>
             <div className="mb-1">
               <strong className="mr-2">Email: </strong>

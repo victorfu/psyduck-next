@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export const convertProviderIdToName = (providerId: string): string => {
+export const providerIdToName = (providerId: string): string => {
   if (providerId === "google.com") {
     return "Google";
   }

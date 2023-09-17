@@ -5,12 +5,17 @@ import { searchHosp } from "@/lib/nhi-apis";
 import { getUserFromHeader } from "@/lib/session-utils";
 import { revalidatePath } from "next/cache";
 
-export async function addQuestion(content: string, path?: string) {
+export async function addQuestion(
+  content: string,
+  answer?: string,
+  path?: string,
+) {
   const user = getUserFromHeader();
   if (!user) return { error: "User is empty" };
 
   const data = {
     content: content,
+    answer: answer,
     createdAt: new Date().toISOString(),
     createdBy: user.uid,
     updatedAt: new Date().toISOString(),

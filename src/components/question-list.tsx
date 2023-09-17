@@ -27,6 +27,10 @@ const QuestionList = ({ questions }: { questions: Question[] }) => {
                 </strong>
                 <span className="text-sm">{question.content}</span>
               </div>
+              <div>
+                <strong className="text-sm font-semibold mr-2">Answer:</strong>
+                <span className="text-sm">{question.answer}</span>
+              </div>
               <div className="mt-1">
                 <span className="text-xs">
                   {formatIsoDate(question.updatedAt)}
