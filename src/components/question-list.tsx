@@ -17,7 +17,7 @@ const QuestionList = ({ questions }: { questions: Question[] }) => {
         const question = doc as Question;
         return (
           <div
-            className={`flex items-center border border-gray-300 p-4 rounded-lg bg-gray-100 my-2 shadow-sm`}
+            className="relative flex items-center border border-gray-300 p-4 rounded-lg bg-gray-100 my-2 shadow-sm"
             key={question.id}
           >
             <div className="flex-1">
@@ -35,7 +35,7 @@ const QuestionList = ({ questions }: { questions: Question[] }) => {
             </div>
             <Button
               type="submit"
-              className="w-5 h-5 p-0 inline-flex items-center rounded-full bg-red-600 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              className="absolute top-2 right-2 w-6 h-6 p-0 inline-flex items-center justify-center bg-red-500 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
               onClick={() => {
                 startTransition(async () => {
                   await deleteQuestion(question.id, PATHNAME_HISTORY);
