@@ -15,7 +15,7 @@ const AdminSwitch = ({ uid, isAdmin }: { uid: string; isAdmin: boolean }) => {
         checked={isAdmin}
         onCheckedChange={() => {
           startTransition(async () => {
-            await toggleAdminPermission(uid, isAdmin);
+            await toggleAdminPermission(uid, isAdmin, "/administration/users");
           });
         }}
       />

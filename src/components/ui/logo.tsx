@@ -10,6 +10,7 @@ const Logo = () => {
         alt="psyduck next"
         width={32}
         height={32}
+        priority
       />
       <Image
         className="hidden h-8 w-auto lg:block"
@@ -17,6 +18,7 @@ const Logo = () => {
         alt="psyduck next"
         width={32}
         height={32}
+        priority
       />
     </div>
   );
