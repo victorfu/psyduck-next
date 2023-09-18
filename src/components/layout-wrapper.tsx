@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
-  PATHNAME_ACCOUNT,
+  PATHNAME_PROFILE,
   PATHNAME_USERS,
   PATHNAME_HOME,
   PATHNAME_HISTORY,
+  PATHNAME_LOGOUT,
+  PATHNAME_LOGIN,
 } from "@/lib/constants";
 import DefaultAvatar from "./ui/default-avatar";
 import Link from "next/link";
@@ -41,12 +43,12 @@ const getUserNavigation = (user?: User) => {
   return user
     ? [
         {
-          name: "Account",
-          href: PATHNAME_ACCOUNT,
+          name: "Profile",
+          href: PATHNAME_PROFILE,
         },
-        { name: "Logout", href: "/logout" },
+        { name: "Logout", href: PATHNAME_LOGOUT },
       ]
-    : [{ name: "Login", href: "/login" }];
+    : [{ name: "Login", href: PATHNAME_LOGIN }];
 };
 
 export default function LayoutWrapper({

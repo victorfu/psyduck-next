@@ -2,7 +2,7 @@ import "server-only";
 import Image from "next/image";
 import { getUserFromHeader } from "@/lib/session-utils";
 
-function AccountPage() {
+function ProfilePage() {
   const user = getUserFromHeader();
 
   return (
@@ -27,4 +27,4 @@ function AccountPage() {
   );
 }
 
-export default AccountPage;
+export default ProfilePage;
