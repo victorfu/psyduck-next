@@ -20,20 +20,24 @@ NEXT_PUBLIC_APP_ID
 NEXT_PUBLIC_MEASUREMENT_ID
 ```
 
-`NEXT_PUBLIC_*` variables are public variables that can be accessed in the browser. The rest are private variables that can only be accessed in the server.
+`NEXT_PUBLIC_*` variables are public variables that can be accessed in the browser.
 
 ### Server Side
 
-Configure the following environment variables for the server to use firebase-admin:
+Configure the following environment variables for the server to use firebase-admin and OpenAI:
 
 ```bash
 FIREBASE_ADMIN_CREDENTIAL
 FIREBASE_ADMIN_DATABASE_URL
+
+OPENAI_API_KEY
 ```
 
 `FIREBASE_ADMIN_CREDENTIAL` is a JSON stringified version of your firebase admin credential. You can get it from your firebase project settings.
 
 `FIREBASE_ADMIN_DATABASE_URL` is the URL of your firebase database. It should be in the format of `https://<project-id>.firebaseio.com`
+
+`OPENAI_API_KEY` is your OpenAI API key. In order to use the OpenAI API, you need to create an account and get an API key from [https://platform.openai.com/](https://platform.openai.com/).
 
 ## Development
 
