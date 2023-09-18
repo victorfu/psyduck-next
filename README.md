@@ -1,6 +1,7 @@
 # Psyduck Next
 
 A Next.js 13 boilerplate with firebase authentication and firestore, based on React, TypeScript, and Tailwind CSS.
+It aims to be a starting point for building a web app with server components in Next.js 13. It also includes a simple example of using OpenAI API.
 
 ## Requirements
 
@@ -57,4 +58,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deployment on Vercel
 
-Configure the auth-domain of your firebase project to the domain of your vercel deployment.
+You need to have a vercel account. You can sign up at [https://vercel.com/](https://vercel.com/). Connect your github repository to vercel and deploy the project. The auth-domain of your firebase project should be set to the domain of your vercel deployment.
+
+## License
+
+Psyduck-Next is licensed under the MIT license.
