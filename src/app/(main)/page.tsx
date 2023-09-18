@@ -1,8 +1,8 @@
 import "server-only";
 import { getUserFromHeader } from "@/lib/session-utils";
-import Ask from "@/components/ask";
+import Consult from "@/components/consult";
 
 export default function Home() {
   const user = getUserFromHeader();
-  return <Ask user={user} />;
+  return <Consult user={user} />;
 }
