@@ -5,7 +5,7 @@ import SaveButton from "@/components/ui/save-button";
 
 async function ProfilePage() {
   const { user } = await getProfile();
-  const { profile } = user;
+  const profile = user?.profile;
 
   return (
     <form action={updateProfile}>

@@ -98,20 +98,15 @@ export async function getProfile(): Promise<any> {
   const uid = user.uid;
   try {
     const doc = await adminFirestore.collection("users").doc(uid).get();
-    if (!doc.exists) {
-      return { error: "No such user" };
-    } else {
-      return {
-        error: undefined,
-        user: {
-          ...user,
-          profile: {
-            ...doc.data(),
-          },
-          uid: uid,
-        },
-      };
-    }
+    const userData = doc.exists ? { profile: { ...doc.data() } } : {};
+    return {
+      error: undefined,
+      user: {
+        ...user,
+        ...userData,
+        uid,
+      },
+    };
   } catch (error) {
     console.error(error);
     return { error: "Error getting profile" };
