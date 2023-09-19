@@ -22,13 +22,6 @@ const getNavigation = (pathname: string, user?: User, isAdmin?: boolean) => {
   const nav = [
     { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
   ];
-  if (user) {
-    nav.push({
-      name: "History",
-      href: PATHNAME_HISTORY,
-      current: pathname === PATHNAME_HISTORY,
-    });
-  }
   if (isAdmin) {
     nav.push({
       name: "Users",

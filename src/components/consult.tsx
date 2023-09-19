@@ -2,19 +2,10 @@
 
 import { useChat } from "ai/react";
 import { Button } from "./ui/button";
-import { addQuestion } from "@/lib/actions";
 
 const Consult = ({ user }: { user: User | undefined }) => {
   const { messages, input, isLoading, handleInputChange, handleSubmit } =
-    useChat({
-      onFinish(message) {
-        addQuestion(input, message.content);
-      },
-      sendExtraMessageFields: true,
-      body: {
-        uid: user?.uid,
-      },
-    });
+    useChat({ sendExtraMessageFields: true });
 
   return (
     <div>
@@ -36,7 +27,7 @@ const Consult = ({ user }: { user: User | undefined }) => {
                 id="question"
                 value={input}
                 className="block w-full resize-none border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder={`身體哪裡不舒服?`}
+                placeholder={`You can ask me anything?`}
                 onChange={handleInputChange}
               />
 
