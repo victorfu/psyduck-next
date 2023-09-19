@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 
 const Consult = ({ user }: { user: User | undefined }) => {
   const { messages, input, isLoading, handleInputChange, handleSubmit } =
-    useChat({ sendExtraMessageFields: true });
+    useChat();
 
   return (
     <div>
