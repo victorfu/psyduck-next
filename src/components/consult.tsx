@@ -54,7 +54,9 @@ const Consult = ({ user }: { user: User | undefined }) => {
       <div className="whitespace-pre-wrap my-6">
         {messages.map((m) => (
           <div key={m.id}>
-            {m.role === "user" ? `${user?.displayName}: ` : "Psyduck: "}
+            {m.role === "user"
+              ? `${user?.displayName || "User"}: `
+              : "Psyduck: "}
             {m.content}
           </div>
         ))}
