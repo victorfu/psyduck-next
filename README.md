@@ -1,7 +1,6 @@
 # Psyduck Next
 
-A Next.js 13 boilerplate with firebase authentication and firestore, based on React, TypeScript, and Tailwind CSS.
-It aims to be a starting point for building a web app with server components in Next.js 13. It also includes a simple example of using OpenAI API.
+Psyduck-Next serves as a robust chat-based boilerplate designed for Next.js 13, integrating features like Firebase authentication and Firestore. Built on a foundation of React, TypeScript, and Tailwind CSS, it's engineered to jump-start the development of web applications leveraging Next.js 13's server components. Additionally, it incorporates a straightforward example showcasing the utilization of the OpenAI API.
 
 ## Requirements
 
