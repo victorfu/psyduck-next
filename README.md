@@ -1,6 +1,6 @@
 # Psyduck Next
 
-Psyduck-Next serves as a robust chat-based boilerplate designed for Next.js 13, integrating Firebase authentication and Firestore. Built on a foundation of React, TypeScript, and Tailwind CSS, it's engineered to jump-start the development of web applications leveraging Next.js 13's server components. Additionally, it incorporates a straightforward example showcasing the utilization of the OpenAI API.
+Psyduck-Next serves as a boilerplate designed for Next.js 13, integrating Firebase authentication and Firestore. Built on a foundation of React, TypeScript, and Tailwind CSS, it's engineered to jump-start the development of web applications leveraging Next.js 13's server components.
 
 ## Requirements
 
@@ -24,20 +24,16 @@ NEXT_PUBLIC_MEASUREMENT_ID
 
 ### Server Side
 
-Configure the following environment variables for the server to use firebase-admin and OpenAI:
+Configure the following environment variables for the server to use firebase-admin:
 
 ```bash
 FIREBASE_ADMIN_CREDENTIAL
 FIREBASE_ADMIN_DATABASE_URL
-
-OPENAI_API_KEY
 ```
 
 `FIREBASE_ADMIN_CREDENTIAL` is a JSON stringified version of your firebase admin credential. You can get it from your firebase project settings.
 
 `FIREBASE_ADMIN_DATABASE_URL` is the URL of your firebase database. It should be in the format of `https://<project-id>.firebaseio.com`
-
-`OPENAI_API_KEY` is your OpenAI API key. In order to use the OpenAI API, you need to create an account and get an API key from [https://platform.openai.com/](https://platform.openai.com/).
 
 ## Development
 
