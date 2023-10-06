@@ -28,13 +28,3 @@ type User = {
   tokensValidAfterTime: string;
   providerData: ProviderData[];
 };
-
-type Question = {
-  id: string;
-  content: string;
-  answer: string;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
-};
