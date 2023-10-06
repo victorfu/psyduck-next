@@ -31,7 +31,8 @@ FIREBASE_ADMIN_CREDENTIAL
 FIREBASE_ADMIN_DATABASE_URL
 ```
 
-`FIREBASE_ADMIN_CREDENTIAL` is a JSON stringified version of your firebase admin credential. You can get it from your firebase project settings.
+`FIREBASE_ADMIN_CREDENTIAL` is a JSON stringified version of your firebase admin credential.
+Firebase admin credential are typically stored in a JSON file that is generated in the Firebase Console.
 
 `FIREBASE_ADMIN_DATABASE_URL` is the URL of your firebase database. It should be in the format of `https://<project-id>.firebaseio.com`
 
