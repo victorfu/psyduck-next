@@ -25,13 +25,15 @@ export async function verifySessionAndGetUser(): Promise<{
 }
 
 export const getUserFromHeader = (): User | undefined => {
-  const headersList = headers();
-  const userString = headersList.get("user");
+  const userString = headers().get("user");
   if (!userString) {
     return undefined;
   }
-  const user: User | undefined = userString
-    ? JSON.parse(userString)
-    : undefined;
-  return user;
+
+  try {
+    return JSON.parse(userString);
+  } catch (error) {
+    console.error("Error parsing user data:", error);
+    return undefined;
+  }
 };
