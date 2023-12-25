@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut as signOutFirebase,
 } from "firebase/auth";
-import { postLogin } from "./apis";
+import { authenticate } from "./apis";
 
 let app: FirebaseApp;
 if (!getApps().length) {
@@ -39,7 +39,7 @@ export const signInByGoogle = async (): Promise<User | undefined> => {
   try {
     const result = await signInWithPopup(auth, googleAuthProvider);
     const idToken = await result.user.getIdToken();
-    const { user } = await postLogin(idToken);
+    const { user } = await authenticate(idToken);
     return user;
   } catch (error) {
     console.error(error);
@@ -51,7 +51,7 @@ export const signInByLine = async (): Promise<User | undefined> => {
   try {
     const result = await signInWithPopup(auth, lineAuthProvider);
     const idToken = await result.user.getIdToken();
-    const { user } = await postLogin(idToken);
+    const { user } = await authenticate(idToken);
     return user;
   } catch (error) {
     console.error(error);

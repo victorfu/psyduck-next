@@ -28,3 +28,8 @@ type User = {
   tokensValidAfterTime: string;
   providerData: ProviderData[];
 };
+
+interface AuthResponse {
+  user: User | undefined;
+  error: string;
+}

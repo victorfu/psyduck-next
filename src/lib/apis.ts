@@ -1,4 +1,7 @@
-export async function getLogin(apiUrl: string, session: string) {
+export async function validateSession(
+  apiUrl: string,
+  session: string,
+): Promise<AuthResponse> {
   if (!session) {
     return { error: "Empty session", user: undefined };
   }
@@ -14,7 +17,7 @@ export async function getLogin(apiUrl: string, session: string) {
   }
 }
 
-export async function postLogin(idToken: string) {
+export async function authenticate(idToken: string): Promise<AuthResponse> {
   const options = {
     method: "POST",
     headers: {
@@ -23,9 +26,9 @@ export async function postLogin(idToken: string) {
     },
   };
   try {
-    const res = await fetch(`/api/login`, options);
-    return await res.json();
+    const response = await fetch(`/api/login`, options);
+    return await response.json();
   } catch (error) {
-    return { error: "Invalid IdToken" };
+    return { error: "Invalid IdToken", user: undefined };
   }
 }
