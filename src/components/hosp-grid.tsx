@@ -3,7 +3,7 @@
 import { search } from "@/lib/actions";
 import { useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import AskButton from "./ui/ask-button";
+import SearchButton from "./ui/search-button";
 import { PATHNAME_HOME } from "@/lib/constants";
 import AnalyticsHelper from "@/lib/analytics-helper";
 
@@ -15,8 +15,8 @@ type Hosp = {
   hosP_ID: string;
 };
 
-const HospGrid = ({ user }: { user: User | undefined }) => {
-  const [hosps, setHosps] = useState<Hosp[] | undefined>(undefined);
+const HospGrid = ({ user }: { user?: User }) => {
+  const [hosps, setHosps] = useState<Hosp[]>();
 
   return (
     <div>
@@ -25,7 +25,7 @@ const HospGrid = ({ user }: { user: User | undefined }) => {
           <form
             action={async (formData) => {
               const { data, error } = await search(formData, PATHNAME_HOME);
-              AnalyticsHelper.getInstance().logEvent("ask", "click");
+              AnalyticsHelper.getInstance().logEvent("search", "click");
               if (error) {
                 alert(error);
                 return;
@@ -39,11 +39,11 @@ const HospGrid = ({ user }: { user: User | undefined }) => {
                 You can ask your question here
               </label>
               <textarea
-                rows={3}
+                rows={1}
                 name="question"
                 id="question"
                 className="block w-full resize-none border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder={`Hello you can search Taiwan's hospital here`}
+                placeholder={`Search hospitals in Taiwan by name`}
                 defaultValue={""}
               />
 
@@ -59,7 +59,7 @@ const HospGrid = ({ user }: { user: User | undefined }) => {
             <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
               <div className="flex items-center space-x-5"></div>
               <div className="flex-shrink-0">
-                <AskButton />
+                <SearchButton />
               </div>
             </div>
           </form>

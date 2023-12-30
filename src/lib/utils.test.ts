@@ -1,4 +1,24 @@
-import { formatIsoDate } from "./utils";
+import { formatIsoDate, providerIdToName } from "./utils";
+
+describe("providerIdToName", () => {
+  it("should return 'Google' for providerId 'google.com'", () => {
+    const providerId = "google.com";
+    const name = providerIdToName(providerId);
+    expect(name).toBe("Google");
+  });
+
+  it("should return 'LINE' for providerId 'oidc.line'", () => {
+    const providerId = "oidc.line";
+    const name = providerIdToName(providerId);
+    expect(name).toBe("LINE");
+  });
+
+  it("should return the same providerId for unknown providerId", () => {
+    const providerId = "unknown-provider";
+    const name = providerIdToName(providerId);
+    expect(name).toBe(providerId);
+  });
+});
 
 describe("formatIsoDate", () => {
   it("should format ISO date correctly", () => {

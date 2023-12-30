@@ -30,6 +30,6 @@ type User = {
 };
 
 interface AuthResponse {
-  user: User | undefined;
-  error: string;
+  user?: User;
+  error?: string;
 }

@@ -9,14 +9,14 @@ const LoginButton = () => {
   const [loading, setLoading] = useState(false);
 
   return loading ? (
-    <LoadingSpinner fullpage={ false } />
+    <LoadingSpinner fullpage={false} />
   ) : (
     <button
       className="rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
       onClick={async () => {
         AnalyticsHelper.getInstance().logEvent("login", "click");
         setLoading(true);
-        const user = await signInByGoogle();
+        const { user } = await signInByGoogle();
         if (user) {
           window.location.reload();
         } else {

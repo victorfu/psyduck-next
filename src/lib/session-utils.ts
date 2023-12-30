@@ -6,7 +6,7 @@ import { headers } from "next/headers";
  * If session cookie is valid, return user object. Otherwise, return 401 or 400.
  */
 export async function verifySessionAndGetUser(): Promise<{
-  error: string | undefined;
+  error?: string;
   user: any;
 }> {
   try {
@@ -27,13 +27,13 @@ export async function verifySessionAndGetUser(): Promise<{
 export const getUserFromHeader = (): User | undefined => {
   const userString = headers().get("user");
   if (!userString) {
-    return undefined;
+    return;
   }
 
   try {
     return JSON.parse(userString);
   } catch (error) {
     console.error("Error parsing user data:", error);
-    return undefined;
+    return;
   }
 };

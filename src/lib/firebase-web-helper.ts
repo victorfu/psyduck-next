@@ -35,31 +35,19 @@ googleAuthProvider.setCustomParameters({
 const lineAuthProvider = new OAuthProvider("oidc.line");
 lineAuthProvider.addScope("openid");
 
-export const signInByGoogle = async (): Promise<User | undefined> => {
-  try {
-    const result = await signInWithPopup(auth, googleAuthProvider);
-    const idToken = await result.user.getIdToken();
-    const { user } = await authenticate(idToken);
-    return user;
-  } catch (error) {
-    console.error(error);
-    return undefined;
-  }
+export const signInByGoogle = async (): Promise<AuthResponse> => {
+  const result = await signInWithPopup(auth, googleAuthProvider);
+  const idToken = await result.user.getIdToken();
+  return await authenticate(idToken);
 };
 
-export const signInByLine = async (): Promise<User | undefined> => {
-  try {
-    const result = await signInWithPopup(auth, lineAuthProvider);
-    const idToken = await result.user.getIdToken();
-    const { user } = await authenticate(idToken);
-    return user;
-  } catch (error) {
-    console.error(error);
-    return undefined;
-  }
+export const signInByLine = async (): Promise<AuthResponse> => {
+  const result = await signInWithPopup(auth, lineAuthProvider);
+  const idToken = await result.user.getIdToken();
+  return await authenticate(idToken);
 };
 
-export const signOut = async () => {
+export const signOut = async (): Promise<void> => {
   try {
     await signOutFirebase(auth);
     const options = {

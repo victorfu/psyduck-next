@@ -3,14 +3,14 @@
 import { useFormStatus } from "react-dom";
 import { Button } from "./button";
 
-function AskButton() {
+function SearchButton() {
   const { pending } = useFormStatus();
 
   return (
     <Button type="submit" disabled={pending}>
-      {pending ? "Asking..." : "Ask"}
+      {pending ? "Search..." : "Search"}
     </Button>
   );
 }
 
-export default AskButton;
+export default SearchButton;
