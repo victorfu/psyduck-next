@@ -12,23 +12,24 @@ import {
   PATHNAME_HOME,
   PATHNAME_LOGOUT,
   PATHNAME_LOGIN,
+  PATHNAME_BOT,
 } from "@/lib/constants";
 import DefaultAvatar from "./ui/default-avatar";
 import Link from "next/link";
 import Logo from "@/components/ui/logo";
 
-const getNavigation = (pathname: string, user?: User, isAdmin?: boolean) => {
-  const nav = [
-    { name: "Home", href: PATHNAME_HOME, current: pathname === PATHNAME_HOME },
+const getNavigation = (pathname: string, user?: User) => {
+  const isAdmin = user?.customClaims?.isAdmin;
+  const pages = [
+    { name: "Home", href: PATHNAME_HOME },
+    { name: "Bot", href: PATHNAME_BOT },
+    ...(isAdmin ? [{ name: "Users", href: PATHNAME_USERS }] : []),
   ];
-  if (isAdmin) {
-    nav.push({
-      name: "Users",
-      href: PATHNAME_USERS,
-      current: pathname === PATHNAME_USERS,
-    });
-  }
-  return nav;
+
+  return pages.map((page) => ({
+    ...page,
+    current: pathname === page.href,
+  }));
 };
 
 const getUserNavigation = (user?: User) => {
@@ -51,8 +52,7 @@ export default function LayoutWrapper({
   user?: User;
 }) {
   const pathname = usePathname();
-  const isAdmin = user?.customClaims?.isAdmin;
-  const navigation = getNavigation(pathname, user, isAdmin);
+  const navigation = getNavigation(pathname, user);
   const userNavigation = getUserNavigation(user);
 
   return (
