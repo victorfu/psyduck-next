@@ -31,8 +31,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
-import { CopyIcon } from "@radix-ui/react-icons";
 
 const formSchema = z.object({
   providerId: z.string().min(1, {
@@ -52,7 +58,7 @@ export default function LineBotList() {
     },
   });
   const [bots, setBots] = useState<Bot[]>([]);
-  const [open, setOpen] = useState(false);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [selectedBot, setSelectedBot] = useState<BotDetail | null>(null);
 
   useEffect(() => {
@@ -75,9 +81,8 @@ export default function LineBotList() {
       const { id } = bot;
       const ses = localStorage.getItem("ses") ?? "";
       const data = await fetchBotDetail(id, ses);
-      console.log(data);
       setSelectedBot(data);
-      setOpen(true);
+      setConfirmDialogOpen(true);
     };
 
     return (
@@ -107,7 +112,7 @@ export default function LineBotList() {
       return null;
     }
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{selectedBot.name}</DialogTitle>
@@ -118,12 +123,8 @@ export default function LineBotList() {
               <Label htmlFor="channel-id">Channel Id</Label>
               <Input id="channel-id" defaultValue={selectedBot.id} readOnly />
             </div>
-            <Button type="submit" size="sm" className="px-3">
-              <span className="sr-only">Copy</span>
-              <CopyIcon className="h-4 w-4" />
-            </Button>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ju">
             <div className="grid flex-1 gap-2">
               <Label htmlFor="channel-secret">Channel Secret</Label>
               <Input
@@ -132,10 +133,6 @@ export default function LineBotList() {
                 readOnly
               />
             </div>
-            <Button type="submit" size="sm" className="px-3">
-              <span className="sr-only">Copy</span>
-              <CopyIcon className="h-4 w-4" />
-            </Button>
           </div>
 
           {selectedBot.issuedToken?.accessToken && (
@@ -150,14 +147,10 @@ export default function LineBotList() {
                   readOnly
                 />
               </div>
-              <Button type="submit" size="sm" className="px-3">
-                <span className="sr-only">Copy</span>
-                <CopyIcon className="h-4 w-4" />
-              </Button>
             </div>
           )}
 
-          <Button type="button" onClick={() => setOpen(false)}>
+          <Button type="button" onClick={() => setConfirmDialogOpen(false)}>
             Add
           </Button>
         </DialogContent>
@@ -166,58 +159,72 @@ export default function LineBotList() {
   };
 
   return (
-    <div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex space-x-2 items-end"
-        >
-          <FormField
-            control={form.control}
-            name="providerId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Provider Id</FormLabel>
-                <FormControl>
-                  <Input placeholder="provide id" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="ses"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Token</FormLabel>
-                <FormControl>
-                  <Input placeholder="ses" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Fetch</Button>
-        </form>
-      </Form>
+    <>
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button variant="outline">Add LINE Bot</Button>
+        </DrawerTrigger>
+        <DrawerContent className="min-h-[80vh]">
+          <DrawerHeader>
+            <DrawerTitle>
+              Enter your provider id and session token ses:
+            </DrawerTitle>
+          </DrawerHeader>
+          <div className="pl-4 pr-4 pb-4">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex space-x-2 items-end"
+              >
+                <FormField
+                  control={form.control}
+                  name="providerId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Provider Id</FormLabel>
+                      <FormControl>
+                        <Input placeholder="provide id" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="ses"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ses Token</FormLabel>
+                      <FormControl>
+                        <Input placeholder="ses" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">Fetch</Button>
+              </form>
+            </Form>
 
-      <div className="mt-5">
-        <ul
-          role="list"
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        >
-          {bots.map((bot) => (
-            <li
-              key={bot.id}
-              className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
-            >
-              <LineBotCard bot={bot} />
-            </li>
-          ))}
-        </ul>
-      </div>
+            <div className="mt-5">
+              <ul
+                role="list"
+                className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+              >
+                {bots.map((bot) => (
+                  <li
+                    key={bot.id}
+                    className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
+                  >
+                    <LineBotCard bot={bot} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </DrawerContent>
+      </Drawer>
       <ConfirmDialog />
-    </div>
+    </>
   );
 }
