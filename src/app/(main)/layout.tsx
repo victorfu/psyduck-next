@@ -6,6 +6,7 @@ import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/lib/constants";
 import { getUserFromHeader } from "@/lib/session-utils";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <LayoutWrapper user={user}>{children}</LayoutWrapper>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

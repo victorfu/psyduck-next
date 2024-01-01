@@ -81,7 +81,7 @@ interface ProviderOrPartner {
   certified: boolean;
 }
 
-interface Bot {
+interface LineBot {
   id: string;
   name: string;
   description: string;
@@ -98,6 +98,21 @@ interface Bot {
   statsAuthorities: any[];
   createdAt: number;
   force2FA: boolean;
+  ////
+  i18n: Record<string, unknown>;
+  secret: string;
+  members: Member[];
+  issuedToken?: IssuedToken;
+  allowedSubnets: string[];
+  webAppConfiguration: WebAppConfiguration;
+  openidConfiguration: OpenIdConfiguration;
+  linkMessageTemplates: any[];
+  capability: Capability;
+  permissions: string[];
+  legalRegionOptions: string[];
+  userIdOfCurrentUser: string;
+  linkedBot: LinkedBot;
+  agreements: any[];
 }
 
 interface Account {
@@ -155,21 +170,19 @@ interface IssuedToken {
   accessToken: string;
 }
 
-interface BotDetail extends Bot {
-  i18n: Record<string, unknown>;
-  secret: string;
-  members: Member[];
-  issuedToken?: IssuedToken;
-  allowedSubnets: string[];
-  webAppConfiguration: WebAppConfiguration;
-  openidConfiguration: OpenIdConfiguration;
-  linkMessageTemplates: any[];
-  capability: Capability;
-  permissions: string[];
-  legalRegionOptions: string[];
-  userIdOfCurrentUser: string;
-  linkedBot: LinkedBot;
-  agreements: any[];
-}
-
 // End of LINE interfaces
+
+interface Bot {
+  id: string;
+  type: string;
+  name: string;
+  description?: string;
+  channelId: string;
+  channelSecret: string;
+  channelAccessToken: string;
+  raw: LineBot;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
+}

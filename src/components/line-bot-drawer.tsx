@@ -39,6 +39,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
+import AddLineBotButton from "./ui/add-line-bot-button";
 
 const formSchema = z.object({
   providerId: z.string().min(1, {
@@ -49,7 +50,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function LineBotList() {
+export default function LineBotDrawer() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,9 +58,9 @@ export default function LineBotList() {
       ses: "",
     },
   });
-  const [bots, setBots] = useState<Bot[]>([]);
+  const [lineBots, setLineBots] = useState<LineBot[]>([]);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [selectedBot, setSelectedBot] = useState<BotDetail | null>(null);
+  const [selectedBot, setSelectedBot] = useState<LineBot | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -73,10 +74,11 @@ export default function LineBotList() {
     localStorage.setItem("providerId", providerId);
     localStorage.setItem("ses", ses);
     const data = await fetchBotList(providerId, ses);
-    setBots(data);
+
+    setLineBots(data.filter((bot) => bot.productTypes.includes("BOT")));
   }
 
-  const LineBotCard = ({ bot }: { bot: Bot }) => {
+  const LineBotCard = ({ bot }: { bot: LineBot }) => {
     const onCardClick = async () => {
       const { id } = bot;
       const ses = localStorage.getItem("ses") ?? "";
@@ -150,9 +152,10 @@ export default function LineBotList() {
             </div>
           )}
 
-          <Button type="button" onClick={() => setConfirmDialogOpen(false)}>
-            Add
-          </Button>
+          <AddLineBotButton
+            bot={selectedBot}
+            onClick={() => setConfirmDialogOpen(false)}
+          />
         </DialogContent>
       </Dialog>
     );
@@ -211,7 +214,7 @@ export default function LineBotList() {
                 role="list"
                 className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
               >
-                {bots.map((bot) => (
+                {lineBots.map((bot) => (
                   <li
                     key={bot.id}
                     className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"

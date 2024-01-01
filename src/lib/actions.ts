@@ -4,6 +4,7 @@ import { adminAuth, adminFirestore } from "@/lib/firebase-admin-helper";
 import { searchHosp } from "@/lib/nhi-apis";
 import { getUserFromHeader } from "@/lib/session-utils";
 import { revalidatePath } from "next/cache";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 function protectOwner(uid: string) {
   if (uid === process.env.OWNER_UID) {
@@ -116,6 +117,74 @@ export async function updateProfile(formData: FormData, path?: string) {
       .set(data, { merge: true });
     if (path) revalidatePath(path);
     return { error: undefined };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function getBots(): Promise<{
+  error?: any;
+  bots?: Bot[];
+}> {
+  try {
+    validateUser();
+    const querySnapshot = await adminFirestore.collection("bots").get();
+    const bots: Bot[] = [];
+    querySnapshot.forEach((doc) => {
+      bots.push({ id: doc.id, ...doc.data() } as Bot);
+    });
+    return {
+      error: undefined,
+      bots,
+    };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function addLineBot(bot: LineBot, path?: string) {
+  try {
+    const user = validateUser();
+    const name = bot.name;
+    const description = bot.description;
+    const channelId = bot.id;
+    const channelSecret = bot.secret;
+    const channelAccessToken = bot.issuedToken?.accessToken;
+
+    if (!channelId) return { error: "Channel ID is required" };
+    if (!channelSecret) return { error: "Channel Secret is required" };
+    if (!channelAccessToken)
+      return { error: "Channel Access Token is required" };
+
+    const querySnapshot = await adminFirestore
+      .collection("bots")
+      .where("channelId", "==", channelId)
+      .get();
+
+    if (!querySnapshot.empty) {
+      return { error: "Bot already exists" };
+    }
+
+    await adminFirestore.collection("bots").add({
+      type: "line",
+      name,
+      description,
+      channelId,
+      channelSecret,
+      channelAccessToken,
+      raw: bot,
+      createdAt: new Date().toISOString(),
+      createdBy: user.uid,
+      updatedAt: new Date().toISOString(),
+      updatedBy: user.uid,
+    });
+
+    if (path) revalidatePath(path);
+    return {
+      error: undefined,
+    };
   } catch (error) {
     console.error(error);
     return { error };

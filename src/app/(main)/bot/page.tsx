@@ -1,13 +1,16 @@
 import "server-only";
 import { getUserFromHeader } from "@/lib/session-utils";
-import LineBotList from "@/components/line-bot-list";
+import LineBotDrawer from "@/components/line-bot-drawer";
+import LineBotTable from "@/components/line-bot-table";
+import { getBots } from "@/lib/actions";
 
-export default function Bot() {
-  const user = getUserFromHeader();
+export default async function Bot() {
+  const { bots } = await getBots();
 
   return (
-    <div>
-      <LineBotList />
+    <div className="space-y-4">
+      <LineBotDrawer />
+      <LineBotTable bots={bots ?? []} />
     </div>
   );
 }

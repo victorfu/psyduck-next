@@ -36,7 +36,7 @@ export async function authenticate(idToken: string): Promise<AuthResponse> {
 export async function fetchBotList(
   providerId: string,
   ses: string,
-): Promise<Bot[]> {
+): Promise<LineBot[]> {
   const response = await fetch("/api/line/bots", {
     method: "POST",
     headers: {
