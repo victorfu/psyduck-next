@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest): Promise<NextResponse<Bot[]>> {
+export async function POST(request: NextRequest) {
   const res = await request.json();
   const { providerId, ses } = res;
   const lineApiUrl = `https://developers.line.biz/api/v1/channel/?providerId=${providerId}`;
@@ -12,6 +12,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<Bot[]>> {
     method: "GET",
     headers: lineApiHeaders,
   });
-  const { values } = await response.json();
-  return NextResponse.json(values);
+
+  if (!response.ok) {
+    return NextResponse.json(
+      {
+        error: response.statusText || "An error occurred",
+      },
+      {
+        status: response.status,
+      },
+    );
+  }
+
+  const data = await response.json();
+  return NextResponse.json(data);
 }

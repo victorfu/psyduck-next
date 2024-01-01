@@ -1,4 +1,4 @@
-export async function validateSession(
+export async function authenticateBySession(
   apiUrl: string,
   session: string,
 ): Promise<AuthResponse> {
@@ -44,8 +44,9 @@ export async function fetchBotList(
     },
     body: JSON.stringify({ providerId, ses }),
   });
-  const data = await response.json();
-  return data;
+
+  const { values } = await response.json();
+  return values;
 }
 
 export async function fetchBotDetail(

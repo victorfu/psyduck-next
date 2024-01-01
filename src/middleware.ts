@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { validateSession } from "./lib/apis";
+import { authenticateBySession } from "./lib/apis";
 import { PATHNAME_HOME, PATHNAME_LOGIN } from "./lib/constants";
 
 const redirectTo = (url: string, request: NextRequest) => {
@@ -14,7 +14,7 @@ const getUserFromSession = async (
   if (!sessionValue) return null;
 
   try {
-    const { error, user } = await validateSession(
+    const { error, user } = await authenticateBySession(
       `${request.nextUrl.origin}`,
       sessionValue,
     );
