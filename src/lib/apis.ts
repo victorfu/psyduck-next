@@ -49,10 +49,10 @@ export async function fetchBotList(
   return values;
 }
 
-export async function fetchBotDetail(
+export async function fetchLineBot(
   channelId: string,
   ses: string,
-): Promise<BotDetail> {
+): Promise<LineBot> {
   const response = await fetch(`/api/line/bots/${channelId}`, {
     method: "POST",
     headers: {

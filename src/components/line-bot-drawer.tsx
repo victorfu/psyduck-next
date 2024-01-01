@@ -23,7 +23,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { fetchBotDetail, fetchBotList } from "@/lib/apis";
+import { fetchLineBot, fetchBotList } from "@/lib/apis";
 import {
   Dialog,
   DialogContent,
@@ -82,7 +82,7 @@ export default function LineBotDrawer() {
     const onCardClick = async () => {
       const { id } = bot;
       const ses = localStorage.getItem("ses") ?? "";
-      const data = await fetchBotDetail(id, ses);
+      const data = await fetchLineBot(id, ses);
       setSelectedBot(data);
       setConfirmDialogOpen(true);
     };
