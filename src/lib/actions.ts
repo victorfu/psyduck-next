@@ -4,7 +4,6 @@ import { adminAuth, adminFirestore } from "@/lib/firebase-admin-helper";
 import { searchHosp } from "@/lib/nhi-apis";
 import { getUserFromHeader } from "@/lib/session-utils";
 import { revalidatePath } from "next/cache";
-import { collection, query, where, getDocs } from "firebase/firestore";
 
 function protectOwner(uid: string) {
   if (uid === process.env.OWNER_UID) {
