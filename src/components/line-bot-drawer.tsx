@@ -30,29 +30,18 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
 import AddLineBotButton from "./ui/add-line-bot-button";
 
 const formSchema = z.object({
-  providerId: z.string().min(1, {
-    message: "Username must be at least 1 character.",
-  }),
-  ses: z.string().min(1, {
-    message: "Username must be at least 1 character.",
-  }),
+  providerId: z.string(),
+  ses: z.string(),
 });
 
 export default function LineBotDrawer() {
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
       providerId: "",
       ses: "",
@@ -174,17 +163,24 @@ export default function LineBotDrawer() {
 
   return (
     <>
-      <Drawer>
-        <DrawerTrigger asChild>
+      <Dialog
+        onOpenChange={(open) => {
+          if (!open) {
+            setLineBots([]);
+            setSelectedBot(null);
+          }
+        }}
+      >
+        <DialogTrigger asChild>
           <Button>Add LINE Bot</Button>
-        </DrawerTrigger>
-        <DrawerContent className="min-h-[80vh]">
-          <DrawerHeader>
-            <DrawerTitle>
+        </DialogTrigger>
+        <DialogContent className="flex flex-col min-w-[80vw] min-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>
               Enter your provider id and session token ses:
-            </DrawerTitle>
-          </DrawerHeader>
-          <div className="pl-4 pr-4 pb-4">
+            </DialogTitle>
+          </DialogHeader>
+          <div className="">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -242,8 +238,8 @@ export default function LineBotDrawer() {
               </ul>
             </div>
           </div>
-        </DrawerContent>
-      </Drawer>
+        </DialogContent>
+      </Dialog>
       <ConfirmDialog />
     </>
   );
