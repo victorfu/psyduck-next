@@ -3,6 +3,8 @@ import {
   messagingApi,
   HTTPError,
   validateSignature,
+  WebhookEvent,
+  MessageEvent,
 } from "@line/bot-sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
@@ -15,14 +17,10 @@ export async function POST(
   { params }: { params: { id: string } },
 ) {
   const id = params.id;
-  if (!id) {
-    return NextResponse.json({ error: "Invalid bot id" }, { status: 400 });
-  }
-
   const headersList = headers();
   const signature = headersList.get("x-line-signature");
   if (!signature) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+    return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
   }
 
   const querySnapshot = await adminFirestore
@@ -56,42 +54,47 @@ export async function POST(
   });
 
   const body: WebhookRequestBody = JSON.parse(rawBody);
-  await Promise.all(
-    body.events.map((event) =>
-      (async () => {
-        if (event.mode === "active") {
-          switch (event.type) {
-            case "message": {
-              // const name = event.source.userId
-              //   ? (await client.getProfile(event.source.userId)).displayName
-              //   : "User";
-              if (event.message.type === "text") {
-                client
-                  .replyMessage({
-                    replyToken: event.replyToken,
-                    messages: [
-                      {
-                        type: "text",
-                        text: event.message.text,
-                      },
-                    ],
-                  })
-                  .catch((err) => {
-                    if (err instanceof HTTPError) {
-                      console.error(err.statusCode);
-                    }
-                  });
-              }
-              break;
-            }
-            case "follow": {
-              break;
-            }
-          }
-        }
-      })(),
-    ),
-  );
+
+  async function handleEvent(event: WebhookEvent) {
+    if (event.mode !== "active") {
+      return;
+    }
+
+    switch (event.type) {
+      case "message":
+        await handleMessageEvent(event);
+        break;
+      case "follow":
+        // Handle follow event
+        break;
+      // Add more cases for other event types if needed
+    }
+  }
+
+  async function handleMessageEvent(event: MessageEvent) {
+    if (event.message.type !== "text") {
+      return;
+    }
+
+    try {
+      await client.replyMessage({
+        replyToken: event.replyToken,
+        messages: [{ type: "text", text: event.message.text }],
+      });
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        console.error(err.statusCode);
+      }
+    }
+  }
+
+  try {
+    await Promise.all(body.events.map(handleEvent));
+  } catch (error) {
+    console.error("Error processing events:", error);
+  }
+
+  console.log("this is the testing log", new Date().toISOString());
 
   return NextResponse.json({ message: "ok" }, { status: 200 });
 }
