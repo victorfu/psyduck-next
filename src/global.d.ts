@@ -180,7 +180,7 @@ interface Bot {
   channelId: string;
   channelSecret: string;
   channelAccessToken: string;
-  raw: LineBot;
+  raw?: LineBot;
   createdAt: string;
   createdBy: string;
   updatedAt: string;

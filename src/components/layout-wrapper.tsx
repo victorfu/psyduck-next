@@ -9,10 +9,10 @@ import { usePathname } from "next/navigation";
 import {
   PATHNAME_PROFILE,
   PATHNAME_USERS,
-  PATHNAME_HOME,
   PATHNAME_LOGOUT,
   PATHNAME_LOGIN,
   PATHNAME_BOT,
+  PATHNAME_HOME,
 } from "@/lib/constants";
 import DefaultAvatar from "./ui/default-avatar";
 import Link from "next/link";
@@ -22,7 +22,7 @@ const getNavigation = (pathname: string, user?: User) => {
   const isAdmin = user?.customClaims?.isAdmin;
   const pages = [
     { name: "Home", href: PATHNAME_HOME },
-    { name: "Bot", href: PATHNAME_BOT },
+    ...(isAdmin ? [{ name: "Bot", href: PATHNAME_BOT }] : []),
     ...(isAdmin ? [{ name: "Users", href: PATHNAME_USERS }] : []),
   ];
 
@@ -63,7 +63,7 @@ export default function LayoutWrapper({
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex">
-                  <Link href={PATHNAME_HOME} className="flex items-center">
+                  <Link href={PATHNAME_BOT} className="flex items-center">
                     <Logo />
                   </Link>
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">

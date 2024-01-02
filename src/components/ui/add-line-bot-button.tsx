@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import LoadingSpinner from "./loading-spinner";
 import { addLineBot } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
+import { PATHNAME_BOT } from "@/lib/constants";
 
 const AddLineBotButton = ({
   bot,
@@ -22,7 +23,7 @@ const AddLineBotButton = ({
         type="button"
         onClick={() => {
           startTransition(async () => {
-            const { error } = await addLineBot(bot, "/bot");
+            const { error } = await addLineBot(bot, PATHNAME_BOT);
             if (error) {
               setError(error as string);
               return;

@@ -81,19 +81,24 @@ export async function POST(
                     if (err instanceof HTTPError) {
                       console.error(err.statusCode);
                     }
+                  })
+                  .finally(() => {
+                    NextResponse.json({ message: "ok" }, { status: 200 });
                   });
+              } else {
+                NextResponse.json({ message: "ok" }, { status: 200 });
               }
               break;
             }
             case "follow": {
-              // Do something.
+              NextResponse.json({ message: "ok" }, { status: 200 });
               break;
             }
           }
+        } else {
+          NextResponse.json({ message: "ok" }, { status: 200 });
         }
       })(),
     ),
   );
-
-  return NextResponse.json({ message: "ok" }, { status: 200 });
 }

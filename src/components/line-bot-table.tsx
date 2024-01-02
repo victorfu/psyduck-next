@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { deleteBot } from "@/lib/actions";
+import { PATHNAME_BOT } from "@/lib/constants";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -118,23 +120,7 @@ export default function LineBotTable({ bots }: { bots: Bot[] }) {
       cell: ({ row }) => {
         const bot = row.original;
         const channelAccessToken = bot.channelAccessToken;
-
-        const handleCopy = () => {
-          navigator.clipboard.writeText(channelAccessToken);
-          toast({
-            title: "Copied to clipboard",
-          });
-        };
-
-        return (
-          <div
-            className="cursor-pointer"
-            onClick={handleCopy}
-            title="Click to copy"
-          >
-            {`${channelAccessToken.substring(0, 10)}...`}
-          </div>
-        );
+        return <div>{`${channelAccessToken.substring(0, 10)}...`}</div>;
       },
     },
     {
@@ -153,11 +139,25 @@ export default function LineBotTable({ bots }: { bots: Bot[] }) {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => {
-                  console.log(bot);
+                  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+                  const webhookUrl = `${appUrl}/api/line/webhook/${bot.channelId}`;
+                  navigator.clipboard.writeText(webhookUrl);
+                  toast({
+                    title: "URL copied to clipboard",
+                    description: webhookUrl,
+                  });
+                }}
+              >
+                Copy Webhook URL
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-600"
+                onClick={async () => {
+                  await deleteBot(bot.id, PATHNAME_BOT);
 
                   toast({
-                    variant: "destructive",
-                    title: "Deleted",
+                    variant: "default",
+                    title: `${bot.name} deleted.`,
                   });
                 }}
               >

@@ -73,18 +73,29 @@ export default function LineBotDrawer() {
     const { providerId, ses } = values;
     localStorage.setItem("providerId", providerId);
     localStorage.setItem("ses", ses);
-    const data = await fetchBotList(providerId, ses);
 
-    setLineBots(data.filter((bot) => bot.productTypes.includes("BOT")));
+    try {
+      const data = await fetchBotList(providerId, ses);
+      setLineBots(data.filter((bot) => bot.productTypes.includes("BOT")));
+    } catch (error) {
+      console.error("Error fetching bot list:", error);
+    }
   }
 
-  const LineBotCard = ({ bot }: { bot: LineBot }) => {
+  const LineBotCard = ({
+    bot,
+    onClick,
+  }: {
+    bot: LineBot;
+    onClick: (bot: LineBot) => void;
+  }) => {
     const onCardClick = async () => {
       const { id } = bot;
       const ses = localStorage.getItem("ses") ?? "";
       const data = await fetchLineBot(id, ses);
-      setSelectedBot(data);
-      setConfirmDialogOpen(true);
+      if (onClick) {
+        onClick(data);
+      }
     };
 
     return (
@@ -165,7 +176,7 @@ export default function LineBotDrawer() {
     <>
       <Drawer>
         <DrawerTrigger asChild>
-          <Button variant="outline">Add LINE Bot</Button>
+          <Button>Add LINE Bot</Button>
         </DrawerTrigger>
         <DrawerContent className="min-h-[80vh]">
           <DrawerHeader>
@@ -219,7 +230,13 @@ export default function LineBotDrawer() {
                     key={bot.id}
                     className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
                   >
-                    <LineBotCard bot={bot} />
+                    <LineBotCard
+                      bot={bot}
+                      onClick={(bot) => {
+                        setSelectedBot(bot);
+                        setConfirmDialogOpen(true);
+                      }}
+                    />
                   </li>
                 ))}
               </ul>

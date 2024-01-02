@@ -143,6 +143,20 @@ export async function getBots(): Promise<{
   }
 }
 
+export async function deleteBot(id: string, path?: string) {
+  try {
+    const user = validateUser();
+    protectOwner(user.uid);
+
+    await adminFirestore.collection("bots").doc(id).delete();
+    if (path) revalidatePath(path);
+    return { error: undefined };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
 export async function addLineBot(bot: LineBot, path?: string) {
   try {
     const user = validateUser();
