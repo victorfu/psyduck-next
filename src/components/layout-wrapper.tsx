@@ -63,7 +63,7 @@ export default function LayoutWrapper({
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex">
-                  <Link href={PATHNAME_BOT} className="flex items-center">
+                  <Link href={PATHNAME_HOME} className="flex items-center">
                     <Logo />
                   </Link>
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
