@@ -1,10 +1,11 @@
 # Psyduck Next
 
-Psyduck-Next serves as a boilerplate designed for Next.js 13, integrating Firebase authentication and Firestore. Built on a foundation of React, TypeScript, and Tailwind CSS, it's engineered to jump-start the development of web applications leveraging Next.js 13's server components.
+This project uses Next.js 13 and integrates LINE's Node.js SDK, enabling support for multiple webhook URLs. This advanced setup allows multiple LINE bots to share the same webhook endpoint, streamlining bot management. The platform continues to feature Firebase authentication and Firestore, all built on React, TypeScript, and Tailwind CSS. It's a robust solution for rapidly developing web applications that capitalize on Next.js 13's server components, with the added benefit of integrated LINE bot functionality.
 
 ## Requirements
 
-Enable Google Sign-In in your firebase project.
+- Enable Google Sign-In in your firebase project.
+- Enable LINE developer console.
 
 ### Client Side
 
