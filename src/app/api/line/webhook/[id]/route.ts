@@ -94,7 +94,5 @@ export async function POST(
     console.error("Error processing events:", error);
   }
 
-  console.log("this is the testing log", new Date().toISOString());
-
   return NextResponse.json({ message: "ok" }, { status: 200 });
 }
