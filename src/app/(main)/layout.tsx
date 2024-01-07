@@ -1,12 +1,13 @@
 import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import LayoutWrapper from "@/components/layout-wrapper";
+import Content from "@/components/content";
 import { METADATA_DESCRIPTION, METADATA_TITLE } from "@/lib/constants";
 import { getUserFromHeader } from "@/lib/session-utils";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={cn("h-full", inter.className)}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <LayoutWrapper user={user}>{children}</LayoutWrapper>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Content user={user}>{children}</Content>
+          <Toaster />
+          <TailwindIndicator />
         </ThemeProvider>
-        <Toaster />
       </body>
     </html>
   );
