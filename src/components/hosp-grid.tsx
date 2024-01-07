@@ -6,6 +6,7 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import SearchButton from "./ui/search-button";
 import { PATHNAME_HOME } from "@/lib/constants";
 import FirebaseAnalytics from "@/lib/firebase-analytics";
+import { Input } from "./ui/input";
 
 type Hosp = {
   hosP_NAME: string;
@@ -18,49 +19,33 @@ type Hosp = {
 const HospGrid = () => {
   const [hosps, setHosps] = useState<Hosp[]>();
 
+  const searchAction = async (formData: FormData) => {
+    const { data, error } = await search(formData, PATHNAME_HOME);
+    FirebaseAnalytics.getInstance().logHospSearch();
+    if (error) {
+      alert(error);
+      return;
+    }
+    setHosps(data || []);
+  };
+
   return (
     <div>
       <div className="flex items-start space-x-4">
         <div className="min-w-0 flex-1">
-          <form
-            action={async (formData) => {
-              const { data, error } = await search(formData, PATHNAME_HOME);
-              FirebaseAnalytics.getInstance().logHospSearch();
-              if (error) {
-                alert(error);
-                return;
-              }
-              setHosps(data || []);
-            }}
-            className="relative"
-          >
-            <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+          <form action={searchAction}>
+            <div className="flex">
               <label htmlFor="question" className="sr-only">
                 You can ask your question here
               </label>
-              <textarea
-                rows={1}
+              <Input
                 name="question"
                 id="question"
-                className="block w-full resize-none border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder={`Search hospitals in Taiwan by name`}
-                defaultValue={""}
+                className="resize-none shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md mr-2"
+                placeholder="Search hospitals in Taiwan by name"
+                defaultValue=""
               />
-
-              {/* Spacer element to match the height of the toolbar */}
-              <div className="py-2" aria-hidden="true">
-                {/* Matches height of button in toolbar (1px border + 36px content height) */}
-                <div className="py-px">
-                  <div className="h-9" />
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
-              <div className="flex items-center space-x-5"></div>
-              <div className="flex-shrink-0">
-                <SearchButton />
-              </div>
+              <SearchButton />
             </div>
           </form>
         </div>
