@@ -2,8 +2,8 @@ import { app } from "./firebase-web-helper";
 import { Analytics, getAnalytics, logEvent } from "firebase/analytics";
 import { Logger } from "./logger";
 
-class AnalyticsHelper {
-  private static instance: AnalyticsHelper | undefined = undefined;
+class FirebaseAnalytics {
+  private static instance: FirebaseAnalytics | undefined = undefined;
   private analyticsInstance: Analytics | undefined = undefined;
 
   private constructor() {
@@ -12,11 +12,11 @@ class AnalyticsHelper {
     }
   }
 
-  public static getInstance(): AnalyticsHelper {
-    if (!AnalyticsHelper.instance) {
-      AnalyticsHelper.instance = new AnalyticsHelper();
+  public static getInstance(): FirebaseAnalytics {
+    if (!FirebaseAnalytics.instance) {
+      FirebaseAnalytics.instance = new FirebaseAnalytics();
     }
-    return AnalyticsHelper.instance;
+    return FirebaseAnalytics.instance;
   }
 
   public logEvent(event: string, data: any): void {
@@ -25,6 +25,14 @@ class AnalyticsHelper {
       logEvent(this.analyticsInstance, event, data);
     }
   }
+
+  public logLogin(): void {
+    this.logEvent("login", "click");
+  }
+
+  public logHospSearch(): void {
+    this.logEvent("hosp_search", "click");
+  }
 }
 
-export default AnalyticsHelper;
+export default FirebaseAnalytics;

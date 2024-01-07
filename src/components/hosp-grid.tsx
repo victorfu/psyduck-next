@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import SearchButton from "./ui/search-button";
 import { PATHNAME_HOME } from "@/lib/constants";
-import AnalyticsHelper from "@/lib/analytics-helper";
+import FirebaseAnalytics from "@/lib/firebase-analytics";
 
 type Hosp = {
   hosP_NAME: string;
@@ -15,7 +15,7 @@ type Hosp = {
   hosP_ID: string;
 };
 
-const HospGrid = ({ user }: { user?: User }) => {
+const HospGrid = () => {
   const [hosps, setHosps] = useState<Hosp[]>();
 
   return (
@@ -25,7 +25,7 @@ const HospGrid = ({ user }: { user?: User }) => {
           <form
             action={async (formData) => {
               const { data, error } = await search(formData, PATHNAME_HOME);
-              AnalyticsHelper.getInstance().logEvent("search", "click");
+              FirebaseAnalytics.getInstance().logHospSearch();
               if (error) {
                 alert(error);
                 return;
