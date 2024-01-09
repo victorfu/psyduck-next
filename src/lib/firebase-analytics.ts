@@ -1,6 +1,6 @@
+import { Log } from "./decorators";
 import { app } from "./firebase-web-helper";
 import { Analytics, getAnalytics, logEvent } from "firebase/analytics";
-import { Logger } from "./logger";
 
 class FirebaseAnalytics {
   private static instance: FirebaseAnalytics | undefined = undefined;
@@ -19,9 +19,9 @@ class FirebaseAnalytics {
     return FirebaseAnalytics.instance;
   }
 
+  @Log
   public logEvent(event: string, data: any): void {
     if (this.analyticsInstance) {
-      Logger.log("Analytics logEvent", event, data);
       logEvent(this.analyticsInstance, event, data);
     }
   }
