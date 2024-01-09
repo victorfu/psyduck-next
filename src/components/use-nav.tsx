@@ -23,7 +23,7 @@ const useNav = (user?: User) => {
 
     return pages.map((page) => ({
       ...page,
-      current: pathname === page.href,
+      current: pathname.includes(page.href),
     }));
   };
 

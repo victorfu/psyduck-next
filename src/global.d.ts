@@ -191,6 +191,7 @@ interface Device {
   id: string;
   name: string;
   description?: string;
+  uid: string;
   createdAt: string;
   createdBy: string;
   updatedAt: string;

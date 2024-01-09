@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 import DataTable from "./ui/data-table";
 import { deleteDevice } from "@/lib/actions";
 import { PATHNAME_DEVICE } from "@/lib/constants";
+import Link from "next/link";
 
 export default function DeviceTable({ devices }: { devices: Device[] }) {
   const { toast } = useToast();
@@ -22,10 +23,28 @@ export default function DeviceTable({ devices }: { devices: Device[] }) {
     {
       accessorKey: "id",
       header: "Id",
+      cell: ({ row }) => {
+        const device = row.original;
+        return (
+          <div>
+            <Link href={`/device/${device.id}`}>{device.id}</Link>
+          </div>
+        );
+      },
     },
     {
       accessorKey: "name",
-      header: "Name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: "description",
@@ -45,6 +64,11 @@ export default function DeviceTable({ devices }: { devices: Device[] }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem>
+                <Link className="w-full" href={`/device/${device.id}`}>
+                  Edit
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-red-600"
                 onClick={async () => {

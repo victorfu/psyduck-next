@@ -214,11 +214,31 @@ export async function getDevices(): Promise<{
     const querySnapshot = await adminFirestore.collection("devices").get();
     const devices: Device[] = [];
     querySnapshot.forEach((doc) => {
-      devices.push({ id: doc.id, ...doc.data() } as Bot);
+      devices.push({ id: doc.id, ...doc.data() } as Device);
     });
     return {
       error: undefined,
       devices,
+    };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function getDeviceById(id: string): Promise<{
+  error?: any;
+  device?: Device;
+}> {
+  try {
+    validateUser();
+    const doc = await adminFirestore.collection("devices").doc(id).get();
+    const device = doc.exists
+      ? ({ id: doc.id, ...doc.data() } as Device)
+      : undefined;
+    return {
+      error: undefined,
+      device,
     };
   } catch (error) {
     console.error(error);
@@ -239,8 +259,13 @@ export async function deleteDevice(id: string, path?: string) {
 }
 
 export async function addDevice(
-  name?: string,
-  description?: string,
+  {
+    name,
+    description,
+  }: {
+    name: string;
+    description?: string;
+  },
   path?: string,
 ) {
   try {
@@ -260,11 +285,54 @@ export async function addDevice(
     await adminFirestore.collection("devices").add({
       name,
       description,
+      uid: user.uid,
       createdAt: new Date().toISOString(),
       createdBy: user.uid,
       updatedAt: new Date().toISOString(),
       updatedBy: user.uid,
     });
+
+    if (path) revalidatePath(path);
+    return {
+      error: undefined,
+    };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function updateDevice(
+  id: string,
+  {
+    name,
+    description,
+  }: {
+    name?: string;
+    description?: string;
+  },
+  path?: string,
+) {
+  try {
+    const user = validateUser();
+
+    if (!id) return { error: "Id is required" };
+
+    const doc = await adminFirestore.collection("devices").doc(id).get();
+    if (!doc.exists) {
+      return { error: "Device not found" };
+    }
+
+    const data: {
+      [key: string]: string;
+    } = {};
+    if (name) data["name"] = name;
+    if (description) data["description"] = description;
+
+    data["updatedAt"] = new Date().toISOString();
+    data["updatedBy"] = user.uid;
+
+    await adminFirestore.collection("devices").doc(id).update(data);
 
     if (path) revalidatePath(path);
     return {

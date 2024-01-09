@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { addDevice } from "@/lib/actions";
 import { PATHNAME_DEVICE } from "@/lib/constants";
-import SaveButton from "./ui/save-button";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   name: z.string(),
@@ -43,7 +43,13 @@ export default function DeviceDialog() {
     const { name, description } = values;
     try {
       setPending(true);
-      await addDevice(name, description, PATHNAME_DEVICE);
+      await addDevice(
+        {
+          name,
+          description,
+        },
+        PATHNAME_DEVICE,
+      );
       setOpen(false);
     } catch (error) {
       console.error("Error adding device:", error);
@@ -95,7 +101,7 @@ export default function DeviceDialog() {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input
+                    <Textarea
                       placeholder="description"
                       {...field}
                       autoComplete="off"
