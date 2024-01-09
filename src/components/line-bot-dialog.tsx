@@ -40,7 +40,7 @@ const formSchema = z.object({
   ses: z.string(),
 });
 
-export default function LineBotDrawer() {
+export default function LineBotDialog() {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       providerId: "",
