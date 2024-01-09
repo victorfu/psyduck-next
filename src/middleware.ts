@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { authenticateBySession } from "./lib/apis";
-import { PATHNAME_HOME, PATHNAME_LOGIN } from "./lib/constants";
+import {
+  PATHNAME_DEVICE,
+  PATHNAME_HOME,
+  PATHNAME_LOGIN,
+} from "./lib/constants";
 import PerformanceMeasure from "./lib/performance-measure";
 
 const redirectTo = (url: string, request: NextRequest) => {
@@ -50,7 +54,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname === PATHNAME_LOGIN) {
-    return redirectTo(PATHNAME_HOME, request);
+    return redirectTo(PATHNAME_DEVICE, request);
   }
 
   const modifiedHeaders = new Headers(request.headers);

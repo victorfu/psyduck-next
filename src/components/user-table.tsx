@@ -21,6 +21,10 @@ export default function UserTable({ users }: { users: UserRecord[] }) {
 
   const columns: ColumnDef<UserRecord>[] = [
     {
+      accessorKey: "uid",
+      header: "Uid",
+    },
+    {
       accessorKey: "displayName",
       header: "Name",
     },

@@ -6,7 +6,8 @@ import { getUserFromHeader } from "@/lib/session-utils";
 import { revalidatePath } from "next/cache";
 
 function protectOwner(uid: string) {
-  if (uid === process.env.OWNER_UID) {
+  console.log(uid, process.env.OWNER_UID);
+  if (uid !== process.env.OWNER_UID) {
     throw new Error("Cannot adjust owner's permission");
   }
 }
@@ -188,6 +189,77 @@ export async function addLineBot(bot: LineBot, path?: string) {
       channelSecret,
       channelAccessToken,
       raw: bot,
+      createdAt: new Date().toISOString(),
+      createdBy: user.uid,
+      updatedAt: new Date().toISOString(),
+      updatedBy: user.uid,
+    });
+
+    if (path) revalidatePath(path);
+    return {
+      error: undefined,
+    };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function getDevices(): Promise<{
+  error?: any;
+  devices?: Device[];
+}> {
+  try {
+    validateUser();
+    const querySnapshot = await adminFirestore.collection("devices").get();
+    const devices: Device[] = [];
+    querySnapshot.forEach((doc) => {
+      devices.push({ id: doc.id, ...doc.data() } as Bot);
+    });
+    return {
+      error: undefined,
+      devices,
+    };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function deleteDevice(id: string, path?: string) {
+  try {
+    validateUser();
+    await adminFirestore.collection("devices").doc(id).delete();
+    if (path) revalidatePath(path);
+    return { error: undefined };
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+export async function addDevice(
+  name?: string,
+  description?: string,
+  path?: string,
+) {
+  try {
+    const user = validateUser();
+
+    if (!name) return { error: "Name is required" };
+
+    const querySnapshot = await adminFirestore
+      .collection("devices")
+      .where("name", "==", name)
+      .get();
+
+    if (!querySnapshot.empty) {
+      return { error: "Device already exists" };
+    }
+
+    await adminFirestore.collection("devices").add({
+      name,
+      description,
       createdAt: new Date().toISOString(),
       createdBy: user.uid,
       updatedAt: new Date().toISOString(),

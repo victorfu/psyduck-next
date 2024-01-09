@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -30,6 +31,7 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border">
+      <DataTableToolbar table={table} />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

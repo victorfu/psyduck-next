@@ -3,11 +3,11 @@
 import { usePathname } from "next/navigation";
 import {
   PATHNAME_PROFILE,
-  PATHNAME_USERS,
+  PATHNAME_USER,
   PATHNAME_LOGOUT,
   PATHNAME_LOGIN,
   PATHNAME_BOT,
-  PATHNAME_HOME,
+  PATHNAME_DEVICE,
 } from "@/lib/constants";
 
 const useNav = (user?: User) => {
@@ -16,9 +16,9 @@ const useNav = (user?: User) => {
   const mainNavigation = (pathname: string, user?: User) => {
     const isAdmin = user?.customClaims?.isAdmin;
     const pages = [
-      { name: "Home", href: PATHNAME_HOME },
+      { name: "Device", href: PATHNAME_DEVICE },
       ...(isAdmin ? [{ name: "Bot", href: PATHNAME_BOT }] : []),
-      ...(isAdmin ? [{ name: "Users", href: PATHNAME_USERS }] : []),
+      ...(isAdmin ? [{ name: "User", href: PATHNAME_USER }] : []),
     ];
 
     return pages.map((page) => ({
@@ -41,6 +41,7 @@ const useNav = (user?: User) => {
   return {
     mainNavigation: mainNavigation(pathname, user),
     userNavigation: userNavigation(user),
+    pathname,
   };
 };
 

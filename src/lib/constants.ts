@@ -6,5 +6,6 @@ export const PATHNAME_HOME = "/";
 export const PATHNAME_LOGIN = "/login";
 export const PATHNAME_LOGOUT = "/logout";
 export const PATHNAME_PROFILE = "/profile";
+export const PATHNAME_DEVICE = "/device";
 export const PATHNAME_BOT = "/administration/bot";
-export const PATHNAME_USERS = "/administration/users";
+export const PATHNAME_USER = "/administration/user";

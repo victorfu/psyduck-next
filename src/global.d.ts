@@ -186,3 +186,13 @@ interface Bot {
   updatedAt: string;
   updatedBy: string;
 }
+
+interface Device {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
+}

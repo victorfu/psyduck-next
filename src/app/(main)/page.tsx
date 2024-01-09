@@ -1,8 +1,8 @@
 import "server-only";
 import dynamic from "next/dynamic";
 
-const HospGrid = dynamic(() => import("@/components/hosp-grid"));
+const Landing = dynamic(() => import("@/components/landing"));
 
 export default function Home() {
-  return <HospGrid />;
+  return <Landing />;
 }
